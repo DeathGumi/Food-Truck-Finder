@@ -38,4 +38,5 @@ menu.
 - Implement on hover show the place 
 - On click send to specific page of the place 
 - Send to specific Page (basically yelp pretty easy to impleemnt
-- For current location probably just use the Pin as a current location thing can drag around will automatically locate how far location is from the pin 
+- For current location probably just use the Pin as a current location thing can drag around will automatically locate how far location is from the pin
+- Search bar for food truck

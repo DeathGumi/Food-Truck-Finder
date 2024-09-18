@@ -35,10 +35,10 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-=======
+
+
+
 # Food-Truck-Finder
-
-
 
 
 • When food truck drivers go live, the system
@@ -67,8 +67,6 @@ to 5).
 menu. 
 
 
-
-
 # Implementation
 
 
@@ -79,3 +77,41 @@ menu.
 - For current location probably just use the Pin as a current location thing can drag around will automatically locate how far location is from the pin
 - Search bar for food truck
 
+
+Possible Layout
+
+/pages
+  _app.js                 # Main App component
+  index.js                # Landing page
+  map.js                  # Full page map view
+  [truckId].js            # Dynamic route for individual food truck pages
+  /api
+    search.js             # API route for search functionality
+    trucks.js             # API route for food truck data (CRUD operations)
+
+/components
+  Layout.js               # Common layout wrapper
+  Header.js               # Navigation header
+  Footer.js               # Footer component
+  Search.js               # Main search component
+  Map.js                  # Map component
+  ListView.js             # List view component for search results
+  FoodTruckCard.js        # Card component for individual food truck in list view
+  FoodTruckMarker.js      # Marker component for food trucks on the map
+  SearchBar.js            # Search input component
+  RatingStars.js          # Star rating component
+
+/hooks
+  useGeolocation.js       # Custom hook for getting user's location
+
+/lib
+  foodTruckData.js        # Mock data for food trucks
+  localStorage.js         # Utility functions for interacting with local storage
+
+/styles
+  globals.js              # Global styles using styled-components or similar
+
+/public
+  /images                 # Store static images here
+    logo.png              # Your app logo
+    defaultTruckImage.jpg # Default image for food trucks

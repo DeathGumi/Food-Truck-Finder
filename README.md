@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -78,4 +78,4 @@ menu.
 - Send to specific Page (basically yelp pretty easy to impleemnt
 - For current location probably just use the Pin as a current location thing can drag around will automatically locate how far location is from the pin
 - Search bar for food truck
->>>>>>> 2e289d64f16fc0e7ee6e9a3002d4e048259727ea
+

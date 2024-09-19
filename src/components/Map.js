@@ -7,14 +7,23 @@ import foodTruckIconImage from '../assets/images/food-truck-icon.png';
 
 const foodTruckIcon = new L.Icon({
   iconUrl: foodTruckIconImage,
-  iconSize: [32, 32], 
-  iconAnchor: [16, 32], 
-  popupAnchor: [0, -32] 
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32]
+});
+
+const currentLocationIcon = new L.Icon({
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
 });
 
 export default function Map({ foodTrucks }) {
   const { location } = useGeolocation();
-  const [mapCenter, setMapCenter] = useState([33.7701, -118.1937]); 
+  const [mapCenter, setMapCenter] = useState([33.7701, -118.1937]);
 
   useEffect(() => {
     if (location) {
@@ -29,6 +38,14 @@ export default function Map({ foodTrucks }) {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
+        {location && (
+          <Marker 
+            position={[location.latitude, location.longitude]}
+            icon={currentLocationIcon}
+          >
+            <Popup>You are here</Popup>
+          </Marker>
+        )}
         {foodTrucks.map(truck => (
           <Marker 
             key={truck.id} 

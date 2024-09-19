@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import SearchBar from './SearchBar';
+import Header from './Header';
 import ListView from './ListView';
 import { getAllFoodTrucks, searchFoodTrucks } from '../lib/foodTruckData';
 
@@ -32,10 +32,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col h-screen">
-      <header className="bg-white shadow-md p-4">
-        <h1 className="text-2xl font-bold mb-4">Food Truck Finder</h1>
-        <SearchBar onSearch={handleSearch} />
-      </header>
+      <Header onSearch={handleSearch} />
       <main className="flex flex-1 overflow-hidden">
         <section className="w-1/3 overflow-y-auto p-4 border-r">
           <ListView foodTrucks={searchResults} />

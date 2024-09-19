@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import React from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { useGeolocation } from '../hooks/useGeolocation';
-import foodTruckIconImage from '../assets/images/food-truck-icon.png';
+import foodTruckIconImage from '../lib/FoodTruckIcon';
 
 const foodTruckIcon = new L.Icon({
   iconUrl: foodTruckIconImage,
@@ -21,28 +20,25 @@ const currentLocationIcon = new L.Icon({
   shadowSize: [41, 41]
 });
 
-export default function Map({ foodTrucks }) {
-  const { location } = useGeolocation();
-  const [mapCenter, setMapCenter] = useState([33.7701, -118.1937]);
+function MapController({ center, zoom }) {
+  const map = useMap();
+  React.useEffect(() => {
+    map.setView(center, zoom);
+  }, [center, zoom, map]);
+  return null;
+}
 
-  useEffect(() => {
-    if (location) {
-      setMapCenter([location.latitude, location.longitude]);
-    }
-  }, [location]);
-
+export default function Map({ foodTrucks, center, zoom, currentLocation }) {
   return (
     <div style={{ height: '500px', width: '100%' }}>
-      <MapContainer center={mapCenter} zoom={13} style={{ height: '100%', width: '100%' }}>
+      <MapContainer center={center} zoom={zoom} style={{ height: '100%', width: '100%' }}>
+        <MapController center={center} zoom={zoom} />
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
-        {location && (
-          <Marker 
-            position={[location.latitude, location.longitude]}
-            icon={currentLocationIcon}
-          >
+        {currentLocation && (
+          <Marker position={[currentLocation.latitude, currentLocation.longitude]} icon={currentLocationIcon}>
             <Popup>You are here</Popup>
           </Marker>
         )}

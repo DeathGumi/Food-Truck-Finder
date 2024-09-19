@@ -30,7 +30,7 @@ function MapController({ center, zoom }) {
 
 export default function Map({ foodTrucks, center, zoom, currentLocation }) {
   return (
-    <div style={{ height: '500px', width: '100%' }}>
+    <div style={{ height: '100%', width: '100%' }}>
       <MapContainer center={center} zoom={zoom} style={{ height: '100%', width: '100%' }}>
         <MapController center={center} zoom={zoom} />
         <TileLayer

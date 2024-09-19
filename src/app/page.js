@@ -48,23 +48,25 @@ export default function Home() {
   return (
     <div className="flex flex-col h-screen">
       <header className="bg-white shadow-md p-4">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold text-black">Food Truck Finder</h1>
+          <div className="flex-grow mx-4">
+            <SearchBar onSearch={handleSearch} />
+          </div>
           <button
             onClick={handleLocateMe}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded whitespace-nowrap"
           >
             Locate Me
           </button>
         </div>
-        <SearchBar onSearch={handleSearch} />
       </header>
       <main className="flex flex-1 overflow-hidden">
         <section className="w-1/3 overflow-y-auto p-4 border-r">
           <ListView foodTrucks={searchResults} />
         </section>
         <section className="w-2/3">
-          <Map foodTrucks={searchResults} center={mapCenter} zoom={mapZoom} />
+          <Map foodTrucks={searchResults} center={mapCenter} zoom={mapZoom} currentLocation={location} />
         </section>
       </main>
     </div>

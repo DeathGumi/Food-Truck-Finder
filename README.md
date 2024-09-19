@@ -78,40 +78,9 @@ menu.
 - Search bar for food truck
 
 
-Possible Layout
-
-/pages
-  _app.js                 # Main App component
-  index.js                # Landing page
-  map.js                  # Full page map view
-  [truckId].js            # Dynamic route for individual food truck pages
-  /api
-    search.js             # API route for search functionality
-    trucks.js             # API route for food truck data (CRUD operations)
-
-/components
-  Layout.js               # Common layout wrapper
-  Header.js               # Navigation header
-  Footer.js               # Footer component
-  Search.js               # Main search component
-  Map.js                  # Map component
-  ListView.js             # List view component for search results
-  FoodTruckCard.js        # Card component for individual food truck in list view
-  FoodTruckMarker.js      # Marker component for food trucks on the map
-  SearchBar.js            # Search input component
-  RatingStars.js          # Star rating component
-
-/hooks
-  useGeolocation.js       # Custom hook for getting user's location
-
-/lib
-  foodTruckData.js        # Mock data for food trucks
-  localStorage.js         # Utility functions for interacting with local storage
-
-/styles
-  globals.js              # Global styles using styled-components or similar
-
-/public
-  /images                 # Store static images here
-    logo.png              # Your app logo
-    defaultTruckImage.jpg # Default image for food trucks
+# Sept 19th
+- [ ] Adjust the card so doesnt show black
+- [ ] Instead of click put hover to show the place
+- [ ] On card show rating
+- [ ] Have it autocalculate the distance current location is from the marker
+- [ ] Also  make it so can move the marker arond

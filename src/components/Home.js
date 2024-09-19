@@ -2,12 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import SearchBar from '../components/SearchBar';
-import ListView from '../components/ListView';
+import SearchBar from './SearchBar';
+import ListView from './ListView';
 import { getAllFoodTrucks, searchFoodTrucks } from '../lib/foodTruckData';
 
-
-const Map = dynamic(() => import('../components/Map'), { ssr: false });
+const Map = dynamic(() => import('./Map'), { ssr: false });
 
 export default function Home() {
   const [foodTrucks, setFoodTrucks] = useState([]);

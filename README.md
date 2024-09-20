@@ -77,6 +77,7 @@ menu.
 - For current location probably just use the Pin as a current location thing can drag around will automatically locate how far location is from the pin
 - Search bar for food truck
 
+Library Used: React Leaflet for map
 
 # Sept 19th
 - [ ] Adjust the card so doesnt show black

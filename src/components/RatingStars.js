@@ -1,3 +1,1 @@
-export default function RatingStars({ rating }) {
-    return <div>Rating: {rating} stars</div>;
-  }
+/* Add Star rating later */

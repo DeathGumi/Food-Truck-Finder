@@ -92,4 +92,4 @@ Library Used: React Leaflet for map
 - [x] Make list on left side Sort by closest to current location
 - [ ] Can make individual pages on click
 - [ ] When press on name send back to main search page
-- [ ] Make it so the trucks actually show png 
+- [x] Make it so the trucks actually show png 

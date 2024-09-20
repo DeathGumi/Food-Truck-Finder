@@ -80,8 +80,15 @@ menu.
 Library Used: React Leaflet for map
 
 # Sept 19th
-- [ ] Adjust the card so doesnt show black
-- [ ] Instead of click put hover to show the place
-- [ ] On card show rating
-- [ ] Have it autocalculate the distance current location is from the marker
-- [ ] Also  make it so can move the marker arond
+- [x] Adjust the card so doesnt show black
+- [x] Instead of click put hover to show the place
+- [x] On card show rating
+- [x] Have it autocalculate the distance current location is from the marker
+- [x] Also  make it so can move the marker arond
+
+
+# Sept 20th
+- [ ] Since introduces tar rating adjust the listview since can just call on startrating
+- [ ] Make list on left side Sort by closest to current location
+- [ ] Can make individual pages on click
+- [ ] When press on name send back to main search page

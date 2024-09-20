@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import foodTruckIconImage from '../lib/FoodTruckIcon';
+import FoodTruckIcon from '../lib/FoodTruckIcon';
+import StarRating from './StarRating'; 
 
 const foodTruckIcon = new L.Icon({
-  iconUrl: foodTruckIconImage,
+  iconUrl: FoodTruckIcon(),
   iconSize: [32, 32],
   iconAnchor: [16, 32],
   popupAnchor: [0, -32]
@@ -53,6 +54,42 @@ function DraggableMarker({ position, onPositionChange }) {
   );
 }
 
+function FoodTruckMarker({ truck }) {
+  const markerRef = useRef(null);
+
+  const eventHandlers = {
+    mouseover: (event) => {
+      event.target.openPopup();
+    },
+    mouseout: (event) => {
+      event.target.closePopup();
+    },
+  };
+
+  return (
+    <Marker 
+      ref={markerRef}
+      key={truck.id} 
+      position={[truck.location.lat, truck.location.lng]}
+      icon={foodTruckIcon}
+      eventHandlers={eventHandlers}
+    >
+      <Popup>
+        <div className="food-truck-popup">
+          <h3 className="font-bold text-lg">{truck.name}</h3>
+          <p className="text-sm text-gray-600">{truck.cuisine}</p>
+          <div className="flex items-center mt-2">
+            <StarRating rating={truck.rating} />
+            <span className="ml-2 text-sm text-gray-600">({truck.reviews} reviews)</span>
+          </div>
+          <p className="mt-2 text-sm">{truck.description}</p>
+          <p className="mt-1 text-sm font-semibold">{truck.hours}</p>
+        </div>
+      </Popup>
+    </Marker>
+  );
+}
+
 export default function Map({ foodTrucks, center, zoom, currentLocation, onLocationChange }) {
   return (
     <div style={{ height: '100%', width: '100%' }}>
@@ -69,19 +106,7 @@ export default function Map({ foodTrucks, center, zoom, currentLocation, onLocat
           />
         )}
         {foodTrucks.map(truck => (
-          <Marker 
-            key={truck.id} 
-            position={[truck.location.lat, truck.location.lng]}
-            icon={foodTruckIcon}
-          >
-            <Popup>
-              <div>
-                <h3 className="font-bold">{truck.name}</h3>
-                <p>{truck.cuisine}</p>
-                <p>Rating: {truck.rating.toFixed(1)}</p>
-              </div>
-            </Popup>
-          </Marker>
+          <FoodTruckMarker key={truck.id} truck={truck} />
         ))}
       </MapContainer>
     </div>

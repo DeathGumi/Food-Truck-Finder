@@ -2,14 +2,13 @@ import React, { useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import FoodTruckIcon from '../lib/FoodTruckIcon';
 import StarRating from './StarRating'; 
 
 const foodTruckIcon = new L.Icon({
-  iconUrl: FoodTruckIcon(),
-  iconSize: [32, 32],
-  iconAnchor: [16, 32],
-  popupAnchor: [0, -32]
+  iconUrl: 'https://png.pngtree.com/png-clipart/20221217/ourmid/pngtree-pizza-food-trucks-png-image_6527203.png',
+  iconSize: [64, 64],
+  iconAnchor: [32, 64],
+  popupAnchor: [0, -64]
 });
 
 const currentLocationIcon = new L.Icon({

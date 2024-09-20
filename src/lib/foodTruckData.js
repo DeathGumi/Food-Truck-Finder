@@ -175,6 +175,102 @@ const foodTrucks = [
     priceRange: "$$",
     hours: "11:00 AM - 9:00 PM",
     location: { lat: 33.7810, lng: -118.1130 } // Near CSULB
+  },
+  {
+    id: '12',
+    name: "Nelson and Alex Rotisserie Chicken",
+    cuisine: "American",
+    description: "Juicy rotisserie chicken with homestyle sides",
+    menu: [
+      { item: "Whole Rotisserie Chicken", price: 15.99 },
+      { item: "Half Chicken Meal", price: 10.99 },
+      { item: "Chicken Sandwich", price: 8.50 }
+    ],
+    rating: 4.6,
+    reviews: 187,
+    priceRange: "$$",
+    hours: "11:00 AM - 8:00 PM",
+    location: { lat: 33.6595, lng: -117.9988 } // Huntington Beach, CA
+  },
+  {
+    id: '13',
+    name: "Kareem's Halal Bros",
+    cuisine: "Middle Eastern",
+    description: "Authentic halal Middle Eastern street food",
+    menu: [
+      { item: "Chicken Shawarma Wrap", price: 8.99 },
+      { item: "Falafel Plate", price: 9.50 },
+      { item: "Lamb Gyro", price: 10.99 }
+    ],
+    rating: 4.7,
+    reviews: 230,
+    priceRange: "$$",
+    hours: "11:00 AM - 9:00 PM",
+    location: { lat: 33.7090, lng: -117.9549 } // Fountain Valley, CA
+  },
+  {
+    id: '14',
+    name: "Peter's Panda Express",
+    cuisine: "Chinese-American",
+    description: "Quick and tasty Chinese-American favorites for students",
+    menu: [
+      { item: "Orange Chicken", price: 9.50 },
+      { item: "Beijing Beef", price: 9.99 },
+      { item: "Chow Mein", price: 5.50 }
+    ],
+    rating: 4.2,
+    reviews: 312,
+    priceRange: "$",
+    hours: "10:00 AM - 8:00 PM",
+    location: { lat: 34.0689, lng: -118.4452 } // near UCLA
+  },
+  {
+    id: '15',
+    name: "Big D's Sandwich Shop",
+    cuisine: "American",
+    description: "Hearty, homemade sandwiches piled high with fresh ingredients",
+    menu: [
+      { item: "The Big D Special", price: 10.99 },
+      { item: "Veggie Delight Sandwich", price: 8.99 },
+      { item: "Turkey Avocado Club", price: 9.50 }
+    ],
+    rating: 4.8,
+    reviews: 176,
+    priceRange: "$$",
+    hours: "10:30 AM - 7:00 PM",
+    location: { lat: 33.7070, lng: -117.9559 } // Fountain Valley, CA
+  },
+  {
+    id: '16',
+    name: "Chongers Cheese",
+    cuisine: "American",
+    description: "Gourmet grilled cheese sandwiches and cheesy delights",
+    menu: [
+      { item: "Classic Grilled Cheese", price: 6.99 },
+      { item: "Mac 'n' Cheese Melt", price: 8.50 },
+      { item: "Cheesy Tomato Soup", price: 4.99 }
+    ],
+    rating: 4.5,
+    reviews: 142,
+    priceRange: "$",
+    hours: "11:00 AM - 8:00 PM",
+    location: { lat: 33.7092, lng: -117.9535 } // Fountain Valley, CA
+  },
+  {
+    id: '17',
+    name: "Nam's Monster Muncher",
+    cuisine: "American Fusion",
+    description: "Oversized burgers, pizzas, and sandwiches with a unique twist",
+    menu: [
+      { item: "Monster Burger", price: 12.99 },
+      { item: "BBQ Pulled Pork Pizza", price: 15.99 },
+      { item: "Philly Cheesesteak Sandwich", price: 10.99 }
+    ],
+    rating: 4.6,
+    reviews: 203,
+    priceRange: "$$",
+    hours: "11:00 AM - 10:00 PM",
+    location: { lat: 33.7743, lng: -117.9380 } // Garden Grove, CA
   }
 ];
 

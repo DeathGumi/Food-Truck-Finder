@@ -88,7 +88,8 @@ Library Used: React Leaflet for map
 
 
 # Sept 20th
-- [ ] Since introduces tar rating adjust the listview since can just call on startrating
-- [ ] Make list on left side Sort by closest to current location
+- [x] Since introduces tar rating adjust the listview since can just call on startrating
+- [x] Make list on left side Sort by closest to current location
 - [ ] Can make individual pages on click
 - [ ] When press on name send back to main search page
+- [ ] Make it so the trucks actually show png 

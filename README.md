@@ -90,6 +90,7 @@ Library Used: React Leaflet for map
 # Sept 20th
 - [x] Since introduces tar rating adjust the listview since can just call on startrating
 - [x] Make list on left side Sort by closest to current location
-- [ ] Can make individual pages on click
-- [ ] When press on name send back to main search page
+- [x] Can make individual pages on click
+- [ ] Make so popup applies to click on map too
+- [x] When press on name send back to main search page (No longer needed since thoguht of pop up solution)
 - [x] Make it so the trucks actually show png 

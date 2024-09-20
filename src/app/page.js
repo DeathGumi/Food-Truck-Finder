@@ -63,7 +63,7 @@ export default function Home() {
       </header>
       <main className="flex flex-1 overflow-hidden">
         <section className="w-1/3 overflow-y-auto p-4 border-r">
-          <ListView foodTrucks={searchResults} />
+          <ListView foodTrucks={searchResults} currentLocation={location} />
         </section>
         <section className="w-2/3">
           <Map foodTrucks={searchResults} center={mapCenter} zoom={mapZoom} currentLocation={location} />

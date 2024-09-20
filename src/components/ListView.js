@@ -1,11 +1,36 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { calculateDistanceInMiles } from '../utils/distanceCalculator';
-import StarRating from './StarRating'; 
+import StarRating from './StarRating';
 
 export default function ListView({ foodTrucks, currentLocation }) {
+  const sortedFoodTrucks = useMemo(() => {
+    if (!currentLocation) return foodTrucks;
+
+    return [...foodTrucks].sort((a, b) => {
+      const distanceA = calculateDistanceInMiles(
+        currentLocation.latitude,
+        currentLocation.longitude,
+        a.location.lat,
+        a.location.lng
+      );
+      const distanceB = calculateDistanceInMiles(
+        currentLocation.latitude,
+        currentLocation.longitude,
+        b.location.lat,
+        b.location.lng
+      );
+      return distanceA - distanceB;
+    });
+  }, [foodTrucks, currentLocation]);
+
   return (
     <div className="grid grid-cols-1 gap-6 bg-white p-6">
-      {foodTrucks.map(truck => {
+      {currentLocation && (
+        <div className="text-sm text-gray-600 mb-4">
+          Sorted by distance from your location
+        </div>
+      )}
+      {sortedFoodTrucks.map(truck => {
         const distance = currentLocation
           ? calculateDistanceInMiles(
               currentLocation.latitude,

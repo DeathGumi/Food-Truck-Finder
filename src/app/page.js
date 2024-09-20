@@ -15,6 +15,7 @@ export default function Home() {
   const { location, error, getCurrentLocation } = useGeolocation();
   const [mapCenter, setMapCenter] = useState([33.7701, -118.1937]);
   const [mapZoom, setMapZoom] = useState(13);
+  const [userLocation, setUserLocation] = useState(null);
 
   useEffect(() => {
     const fetchFoodTrucks = async () => {
@@ -29,6 +30,7 @@ export default function Home() {
     if (location) {
       setMapCenter([location.latitude, location.longitude]);
       setMapZoom(15);
+      setUserLocation(location);
     }
   }, [location]);
 
@@ -43,6 +45,14 @@ export default function Home() {
 
   const handleLocateMe = () => {
     getCurrentLocation();
+  };
+
+  const handleLocationChange = (newLocation) => {
+    setUserLocation({
+      latitude: newLocation.lat,
+      longitude: newLocation.lng
+    });
+    setMapCenter([newLocation.lat, newLocation.lng]);
   };
 
   return (
@@ -63,10 +73,16 @@ export default function Home() {
       </header>
       <main className="flex flex-1 overflow-hidden">
         <section className="w-1/3 overflow-y-auto p-4 border-r">
-          <ListView foodTrucks={searchResults} currentLocation={location} />
+          <ListView foodTrucks={searchResults} currentLocation={userLocation} />
         </section>
         <section className="w-2/3">
-          <Map foodTrucks={searchResults} center={mapCenter} zoom={mapZoom} currentLocation={location} />
+          <Map 
+            foodTrucks={searchResults} 
+            center={mapCenter} 
+            zoom={mapZoom} 
+            currentLocation={userLocation}
+            onLocationChange={handleLocationChange}
+          />
         </section>
       </main>
     </div>

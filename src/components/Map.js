@@ -1,5 +1,5 @@
-import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import React, { useEffect } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import foodTruckIconImage from '../lib/FoodTruckIcon';
@@ -22,13 +22,38 @@ const currentLocationIcon = new L.Icon({
 
 function MapController({ center, zoom }) {
   const map = useMap();
-  React.useEffect(() => {
+  useEffect(() => {
     map.setView(center, zoom);
   }, [center, zoom, map]);
   return null;
 }
 
-export default function Map({ foodTrucks, center, zoom, currentLocation }) {
+function DraggableMarker({ position, onPositionChange }) {
+  const map = useMapEvents({
+    click() {
+      map.locate();
+    },
+  });
+
+  return position === null ? null : (
+    <Marker
+      draggable={true}
+      eventHandlers={{
+        dragend: (e) => {
+          const marker = e.target;
+          const position = marker.getLatLng();
+          onPositionChange(position);
+        },
+      }}
+      position={position}
+      icon={currentLocationIcon}
+    >
+      <Popup>You are here</Popup>
+    </Marker>
+  );
+}
+
+export default function Map({ foodTrucks, center, zoom, currentLocation, onLocationChange }) {
   return (
     <div style={{ height: '100%', width: '100%' }}>
       <MapContainer center={center} zoom={zoom} style={{ height: '100%', width: '100%' }}>
@@ -38,9 +63,10 @@ export default function Map({ foodTrucks, center, zoom, currentLocation }) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         {currentLocation && (
-          <Marker position={[currentLocation.latitude, currentLocation.longitude]} icon={currentLocationIcon}>
-            <Popup>You are here</Popup>
-          </Marker>
+          <DraggableMarker
+            position={[currentLocation.latitude, currentLocation.longitude]}
+            onPositionChange={onLocationChange}
+          />
         )}
         {foodTrucks.map(truck => (
           <Marker 

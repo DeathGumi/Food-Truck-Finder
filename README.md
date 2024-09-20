@@ -94,3 +94,6 @@ Library Used: React Leaflet for map
 - [ ] Make so popup applies to click on map too
 - [x] When press on name send back to main search page (No longer needed since thoguht of pop up solution)
 - [x] Make it so the trucks actually show png 
+- [ ] Need to make it so add review saves review
+- [ ] Need to add dummy reviews
+- [ ] Need to add pictures 

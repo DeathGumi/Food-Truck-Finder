@@ -72,7 +72,7 @@ export default function Home() {
         </div>
       </header>
       <main className="flex flex-1 overflow-hidden">
-        <section className="w-1/3 overflow-y-auto p-4 border-r">
+        <section className="w-1/3 overflow-y-auto p-4 bg-white">
           <ListView foodTrucks={searchResults} currentLocation={userLocation} />
         </section>
         <section className="w-2/3">

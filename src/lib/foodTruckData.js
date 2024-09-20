@@ -184,7 +184,8 @@ const foodTrucks = [
     menu: [
       { item: "Whole Rotisserie Chicken", price: 15.99 },
       { item: "Half Chicken Meal", price: 10.99 },
-      { item: "Chicken Sandwich", price: 8.50 }
+      { item: "Chicken Sandwich", price: 8.50 },
+      { item: "Side of Buldak Sauce", price: 0.50 }
     ],
     rating: 4.6,
     reviews: 187,
@@ -231,7 +232,7 @@ const foodTrucks = [
     description: "Hearty, homemade sandwiches piled high with fresh ingredients",
     menu: [
       { item: "The Big D Special", price: 10.99 },
-      { item: "Veggie Delight Sandwich", price: 8.99 },
+      { item: "Kenstyle Delight Sandwich", price: 8.99 },
       { item: "Turkey Avocado Club", price: 9.50 }
     ],
     rating: 4.8,
@@ -248,7 +249,7 @@ const foodTrucks = [
     menu: [
       { item: "Classic Grilled Cheese", price: 6.99 },
       { item: "Mac 'n' Cheese Melt", price: 8.50 },
-      { item: "Cheesy Tomato Soup", price: 4.99 }
+      { item: "Cheesy Quesadilla", price: 4.99 }
     ],
     rating: 4.5,
     reviews: 142,
@@ -271,6 +272,22 @@ const foodTrucks = [
     priceRange: "$$",
     hours: "11:00 AM - 10:00 PM",
     location: { lat: 33.7743, lng: -117.9380 } // Garden Grove, CA
+  },
+  {
+    id: '18',
+    name: "Kenny's 85 Degrees Bakery",
+    cuisine: "Bakery & Coffee",
+    description: "Fresh Asian-inspired pastries and specialty coffee drinks",
+    menu: [
+      { item: "Sea Salt Coffee", price: 4.50 },
+      { item: "Taro Bread", price: 3.25 },
+      { item: "Glizzy Buns", price: 2.75 }
+    ],
+    rating: 4.7,
+    reviews: 289,
+    priceRange: "$$",
+    hours: "7:00 AM - 9:00 PM",
+    location: { lat: 33.7597, lng: -117.9965 } // Westminster, CA
   }
 ];
 

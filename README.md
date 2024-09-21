@@ -97,3 +97,9 @@ Library Used: React Leaflet for map
 - [ ] Need to make it so add review saves review
 - [ ] Need to add dummy reviews
 - [ ] Need to add pictures 
+
+# Sept 21st
+- [ ] Need to make it so add review saves review
+- [ ] Need to add dummy reviews
+- [ ] Need to add pictures 
+- [ ] Maybe add food truck and save somewhere

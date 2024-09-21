@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import StarRating from './StarRating'; 
+import StarRating from './StarRating';
+import FoodTruckModal from './FoodTruckModal';
 
 const foodTruckIcon = new L.Icon({
   iconUrl: 'https://png.pngtree.com/png-clipart/20221217/ourmid/pngtree-pizza-food-trucks-png-image_6527203.png',
@@ -53,10 +54,13 @@ function DraggableMarker({ position, onPositionChange }) {
   );
 }
 
-function FoodTruckMarker({ truck }) {
+function FoodTruckMarker({ truck, onMarkerClick }) {
   const markerRef = useRef(null);
 
   const eventHandlers = {
+    click: () => {
+      onMarkerClick(truck);
+    },
     mouseover: (event) => {
       event.target.openPopup();
     },
@@ -89,10 +93,26 @@ function FoodTruckMarker({ truck }) {
   );
 }
 
-export default function Map({ foodTrucks, center, zoom, currentLocation, onLocationChange }) {
+export default function Map({ foodTrucks, center, zoom, currentLocation, onLocationChange, onUpdateRating }) {
+  const [selectedTruck, setSelectedTruck] = useState(null);
+  const mapRef = useRef(null);
+
+  const handleMarkerClick = (truck) => {
+    setSelectedTruck(truck);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedTruck(null);
+  };
+
   return (
-    <div style={{ height: '100%', width: '100%', position: 'relative', zIndex: 1 }}>
-      <MapContainer center={center} zoom={zoom} style={{ height: '100%', width: '100%' }}>
+    <div style={{ height: '100%', width: '100%', position: 'relative' }}>
+      <MapContainer 
+        center={center} 
+        zoom={zoom} 
+        style={{ height: '100%', width: '100%' }}
+        ref={mapRef}
+      >
         <MapController center={center} zoom={zoom} />
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -105,9 +125,30 @@ export default function Map({ foodTrucks, center, zoom, currentLocation, onLocat
           />
         )}
         {foodTrucks.map(truck => (
-          <FoodTruckMarker key={truck.id} truck={truck} />
+          <FoodTruckMarker key={truck.id} truck={truck} onMarkerClick={handleMarkerClick} />
         ))}
       </MapContainer>
+      {selectedTruck && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 1000,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <FoodTruckModal
+            truck={selectedTruck}
+            isOpen={!!selectedTruck}
+            onClose={handleCloseModal}
+            onUpdateRating={onUpdateRating}
+          />
+        </div>
+      )}
     </div>
   );
 }

@@ -35,7 +35,7 @@ export default function ListView({ foodTrucks, currentLocation, onUpdateRating }
   };
 
   return (
-    <div className="grid grid-cols-1 gap-6 bg-white p-6">
+    <div className="grid grid-cols-1 gap-6 bg-white p-6 relative">
       {currentLocation && (
         <div className="text-sm text-gray-600 mb-4">
           Sorted by distance from your location
@@ -80,12 +80,25 @@ export default function ListView({ foodTrucks, currentLocation, onUpdateRating }
       })}
 
       {selectedTruck && (
-        <FoodTruckModal
-          truck={selectedTruck}
-          isOpen={!!selectedTruck}
-          onClose={closeModal}
-          onUpdateRating={onUpdateRating}
-        />
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 100000,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <FoodTruckModal
+            truck={selectedTruck}
+            isOpen={!!selectedTruck}
+            onClose={closeModal}
+            onUpdateRating={onUpdateRating}
+          />
+        </div>
       )}
     </div>
   );

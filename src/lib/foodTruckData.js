@@ -150,7 +150,9 @@ const foodTrucks = [
     reviews: 210,
     priceRange: "$$",
     hours: "11:00 AM - 8:00 PM",
-    location: { lat: 33.7845, lng: -118.1165 } // Near CSULB
+    location: { lat: 33.7845, lng: -118.1165 }, // Near CSULB
+    imageurl: '/images/pho1.png'
+
   },
   {
     id: '10',

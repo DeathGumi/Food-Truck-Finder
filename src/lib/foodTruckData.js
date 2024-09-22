@@ -207,7 +207,8 @@ const foodTrucks = [
     reviews: 230,
     priceRange: "$$",
     hours: "11:00 AM - 9:00 PM",
-    location: { lat: 33.7090, lng: -117.9549 } // Fountain Valley, CA
+    location: { lat: 33.7090, lng: -117.9549 },// Fountain Valley, CA
+    imageurl: '/images/kareem.jpg'
   },
   {
     id: '14',

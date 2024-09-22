@@ -115,9 +115,10 @@ const foodTrucks = [
     reviews: 287,
     priceRange: "$$",
     hours: "8:00 AM - 8:00 PM",
-    location: { lat: 33.7542, lng: -118.1305 } // Near 2nd Street, Naples
+    location: { lat: 33.7542, lng: -118.1305 }, // Near 2nd Street, Naples
+    imageurl: '/images/crepe.png'
   },
-  // New food trucks near CSULB
+  
   {
     id: '8',
     name: "Campus Bites",

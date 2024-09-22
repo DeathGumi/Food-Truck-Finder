@@ -270,13 +270,15 @@ const foodTrucks = [
     menu: [
       { item: "Monster Burger", price: 12.99 },
       { item: "BBQ Pulled Pork Pizza", price: 15.99 },
-      { item: "Philly Cheesesteak Sandwich", price: 10.99 }
+      { item: "Philly Cheesesteak Sandwich", price: 10.99 },
+      { item: "Chicken Tendies", price: 10.99 }
     ],
     rating: 4.6,
     reviews: 203,
     priceRange: "$$",
     hours: "11:00 AM - 10:00 PM",
-    location: { lat: 33.7743, lng: -117.9380 } // Garden Grove, CA
+    location: { lat: 33.7743, lng: -117.9380 }, // Garden Grove, CA
+    imageurl: '/images/nam.png'
   },
   {
     id: '18',

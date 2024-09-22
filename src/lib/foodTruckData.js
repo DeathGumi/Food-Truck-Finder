@@ -191,7 +191,8 @@ const foodTrucks = [
     reviews: 187,
     priceRange: "$$",
     hours: "11:00 AM - 8:00 PM",
-    location: { lat: 33.6595, lng: -117.9988 } // Huntington Beach, CA
+    location: { lat: 33.6595, lng: -117.9988 }, // Huntington Beach, CA
+    imageurl: '/images/chicken.png'
   },
   {
     id: '13',

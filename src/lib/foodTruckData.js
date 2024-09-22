@@ -225,7 +225,8 @@ const foodTrucks = [
     reviews: 312,
     priceRange: "$",
     hours: "10:00 AM - 8:00 PM",
-    location: { lat: 34.0689, lng: -118.4452 } // near UCLA
+    location: { lat: 34.0689, lng: -118.4452 }, // near UCLA
+    imageurl: '/images/pp.png'
   },
   {
     id: '15',
@@ -258,7 +259,8 @@ const foodTrucks = [
     reviews: 142,
     priceRange: "$",
     hours: "11:00 AM - 8:00 PM",
-    location: { lat: 33.7092, lng: -117.9535 } // Fountain Valley, CA
+    location: { lat: 33.7092, lng: -117.9535 }, // Fountain Valley, CA
+    imageurl: '/images/Chong.png'
   },
   {
     id: '17',
@@ -290,7 +292,8 @@ const foodTrucks = [
     reviews: 289,
     priceRange: "$$",
     hours: "7:00 AM - 9:00 PM",
-    location: { lat: 33.7597, lng: -117.9965 } // Westminster, CA
+    location: { lat: 33.7597, lng: -117.9965 }, // Westminster, CA
+    imageurl: '/images/kenny1.png'
   }
 ];
 

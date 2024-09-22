@@ -199,9 +199,9 @@ const foodTrucks = [
     cuisine: "Middle Eastern",
     description: "Authentic halal Middle Eastern street food",
     menu: [
-      { item: "Chicken Shawarma Wrap", price: 8.99 },
-      { item: "Falafel Plate", price: 9.50 },
-      { item: "Lamb Gyro", price: 10.99 }
+      { item: "Peak Cinema Wrap", price: 8.99 },
+      { item: "Better than talk tuah plate", price: 9.50 },
+      { item: "Don't forget the bev", price: 2.50 }
     ],
     rating: 4.7,
     reviews: 230,

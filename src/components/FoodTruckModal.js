@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import StarRating from './StarRating';
 import dummyReviews from '../lib/dummyReviews';
 
@@ -62,7 +63,17 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
             </button>
           </div>
           
-          <img src={truck.imageUrl} alt={truck.name} className="w-full h-64 object-cover rounded-lg mb-4"/>
+          {truck.imageurl && (
+            <div className="relative w-full h-64 mb-4">
+              <Image 
+                src={truck.imageurl}
+                alt={truck.name} 
+                layout="fill"
+                objectFit="cover"
+                className="rounded-lg"
+              />
+            </div>
+          )}
           
           <div className="mb-4">
             <StarRating rating={truck.rating} />
@@ -70,6 +81,15 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
           </div>
           
           <p className="text-black mb-4">{truck.description}</p>
+          
+          <h3 className="text-xl font-semibold mb-2 text-black">Menu</h3>
+          <ul className="list-disc pl-5 mb-4">
+            {truck.menu.map((item, index) => (
+              <li key={index} className="text-black">
+                {item.item} - ${item.price.toFixed(2)}
+              </li>
+            ))}
+          </ul>
           
           <h3 className="text-xl font-semibold mb-2 text-black">Reviews</h3>
           <div className="space-y-4 mb-6">

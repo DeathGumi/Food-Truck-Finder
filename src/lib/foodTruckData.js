@@ -47,7 +47,8 @@ const foodTrucks = [
     reviews: 276,
     priceRange: "$$",
     hours: "12:00 PM - 10:00 PM",
-    location: { lat: 33.7618, lng: -118.1671 } // Belmont Shore
+    location: { lat: 33.7618, lng: -118.1671 }, // Belmont Shore
+    imageurl: '/images/fusion.png'
   },
   {
     id: '4',

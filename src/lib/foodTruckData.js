@@ -64,7 +64,8 @@ const foodTrucks = [
     reviews: 423,
     priceRange: "$$",
     hours: "11:00 AM - 9:00 PM",
-    location: { lat: 33.8089, lng: -118.1953 } // North Long Beach
+    location: { lat: 33.8089, lng: -118.1953 }, // North Long Beach
+    imageurl: '/images/burger.png'
   },
   {
     id: '5',

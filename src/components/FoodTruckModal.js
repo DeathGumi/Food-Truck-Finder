@@ -7,6 +7,7 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
   const [reviews, setReviews] = useState([]);
   const [newRating, setNewRating] = useState(0);
   const [newReview, setNewReview] = useState('');
+  const [newImage, setNewImage] = useState(null);
   const [showReviewForm, setShowReviewForm] = useState(false);
 
   useEffect(() => {
@@ -18,6 +19,17 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
 
   if (!isOpen) return null;
 
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setNewImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmitRating = () => {
     if (newRating === 0 || newReview.trim() === '') {
       alert('Please provide both a rating and a review.');
@@ -26,7 +38,8 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
 
     const newReviewObject = {
       rating: newRating,
-      text: newReview.trim()
+      text: newReview.trim(),
+      image: newImage
     };
 
     const updatedReviews = [newReviewObject, ...reviews];
@@ -34,6 +47,7 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
     localStorage.setItem(`reviews_${truck.id}`, JSON.stringify(updatedReviews));
     setNewRating(0);
     setNewReview('');
+    setNewImage(null);
     setShowReviewForm(false);
   };
 
@@ -97,6 +111,15 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
               <div key={index} className="border-b pb-2">
                 <StarRating rating={review.rating} />
                 <p className="mt-1 text-black">{review.text}</p>
+                {review.image && (
+                  <Image
+                    src={review.image}
+                    alt="Review image"
+                    width={200}
+                    height={200}
+                    className="mt-2 rounded"
+                  />
+                )}
               </div>
             ))}
           </div>
@@ -121,6 +144,21 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
                   placeholder="Write your review here..."
                   rows="3"
                 />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="w-full p-2 border rounded text-black"
+                />
+                {newImage && (
+                  <Image
+                    src={newImage}
+                    alt="Review image preview"
+                    width={200}
+                    height={200}
+                    className="mt-2 rounded"
+                  />
+                )}
                 <button 
                   onClick={handleSubmitRating}
                   className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"

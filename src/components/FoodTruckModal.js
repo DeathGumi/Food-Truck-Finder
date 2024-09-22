@@ -9,6 +9,7 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
   const [newReview, setNewReview] = useState('');
   const [newImage, setNewImage] = useState(null);
   const [showReviewForm, setShowReviewForm] = useState(false);
+  const [selectedReview, setSelectedReview] = useState(null);
 
   useEffect(() => {
     if (truck) {
@@ -37,6 +38,7 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
     }
 
     const newReviewObject = {
+      id: Date.now(), // Ensure unique id for each review
       rating: newRating,
       text: newReview.trim(),
       image: newImage
@@ -54,6 +56,25 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
+    }
+  };
+
+  const handleReviewClick = (review) => {
+    setSelectedReview(review);
+  };
+
+  const handleDeleteReview = () => {
+    if (selectedReview) {
+      const updatedReviews = reviews.filter(review => review.id !== selectedReview.id);
+      setReviews(updatedReviews);
+      localStorage.setItem(`reviews_${truck.id}`, JSON.stringify(updatedReviews));
+      setSelectedReview(null);
+    }
+  };
+
+  const handleCloseReviewDetail = (e) => {
+    if (e.target === e.currentTarget) {
+      setSelectedReview(null);
     }
   };
 
@@ -107,8 +128,8 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
           
           <h3 className="text-xl font-semibold mb-2 text-black">Reviews</h3>
           <div className="space-y-4 mb-6">
-            {reviews.map((review, index) => (
-              <div key={index} className="border-b pb-2">
+            {reviews.map((review) => (
+              <div key={review.id} className="border-b pb-2 cursor-pointer" onClick={() => handleReviewClick(review)}>
                 <StarRating rating={review.rating} />
                 <p className="mt-1 text-black">{review.text}</p>
                 {review.image && (
@@ -170,6 +191,37 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
           )}
         </div>
       </div>
+
+      {selectedReview && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-60" onClick={handleCloseReviewDetail}>
+          <div className="bg-white rounded-lg p-6 max-w-md w-full relative" onClick={e => e.stopPropagation()}>
+            <button 
+              onClick={() => setSelectedReview(null)} 
+              className="absolute top-2 right-2 text-xl text-black hover:text-gray-700"
+            >
+              &times;
+            </button>
+            <h3 className="text-xl font-semibold mb-2 text-black">Review Details</h3>
+            <StarRating rating={selectedReview.rating} />
+            <p className="mt-2 text-black">{selectedReview.text}</p>
+            {selectedReview.image && (
+              <Image
+                src={selectedReview.image}
+                alt="Review image"
+                width={200}
+                height={200}
+                className="mt-2 rounded"
+              />
+            )}
+            <button 
+              onClick={handleDeleteReview}
+              className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+            >
+              Delete Review
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

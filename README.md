@@ -106,6 +106,7 @@ Library Used: React Leaflet for map
 
 # Sept 22nd 
 - [x] Need to be able to add pictures in the review
-- [ ] Maybe add food truck and save somewhere
+- [ ] Maybe add food truck and save somewhere (can add image)
 - [x] Allow for delete 
 - [ ] Add date on reviews 
+- [x] Added images to all 

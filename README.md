@@ -110,3 +110,4 @@ Library Used: React Leaflet for map
 - [x] Allow for delete 
 - [ ] Add date on reviews 
 - [x] Added images to all 
+- [ ] Make it so logo is specific (Chinese, Mexican (Separate from the rest))

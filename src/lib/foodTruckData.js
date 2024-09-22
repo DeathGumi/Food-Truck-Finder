@@ -13,7 +13,8 @@ const foodTrucks = [
     reviews: 312,
     priceRange: "$$",
     hours: "11:00 AM - 9:00 PM",
-    location: { lat: 33.7701, lng: -118.1937 } // Downtown Long Beach
+    location: { lat: 33.7701, lng: -118.1937 }, // Downtown Long Beach
+    imageurl: '/images/taco1.png'
   },
   {
     id: '2',
@@ -29,7 +30,8 @@ const foodTrucks = [
     reviews: 189,
     priceRange: "$$",
     hours: "11:30 AM - 8:30 PM",
-    location: { lat: 33.7829, lng: -118.1414 } // Near Cal State Long Beach
+    location: { lat: 33.7829, lng: -118.1414 }, // Near Cal State Long Beach
+    imageurl: '/images/wok1.png'
   },
   {
     id: '3',

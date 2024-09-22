@@ -233,7 +233,7 @@ const foodTrucks = [
     menu: [
       { item: "The Big D Special", price: 10.99 },
       { item: "Kenstyle Delight Sandwich", price: 8.99 },
-      { item: "Turkey Avocado Club", price: 9.50 }
+      { item: "Big D's ocky way", price: 9.50 }
     ],
     rating: 4.8,
     reviews: 176,

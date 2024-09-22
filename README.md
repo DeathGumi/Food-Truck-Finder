@@ -107,4 +107,4 @@ Library Used: React Leaflet for map
 # Sept 22nd 
 - [x] Need to be able to add pictures in the review
 - [ ] Maybe add food truck and save somewhere
-- [ ] Allow for delete 
+- [x] Allow for delete 

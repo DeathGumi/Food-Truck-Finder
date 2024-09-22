@@ -102,5 +102,9 @@ Library Used: React Leaflet for map
 - [x] Need to make it so add review saves review
 - [x] Need to add dummy reviews
 - [x] Need to add pictures for each foodtruck
-- [ ] Need to be able to add pictures in the review
+
+
+# Sept 22nd 
+- [x] Need to be able to add pictures in the review
 - [ ] Maybe add food truck and save somewhere
+- [ ] Allow for delete 

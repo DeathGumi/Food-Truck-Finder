@@ -1,15 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import StarRating from './StarRating';
+import dummyReviews from '../lib/dummyReviews';
 
-const FoodTruckModal = ({ truck, isOpen, onClose, onUpdateRating }) => {
+const FoodTruckModal = ({ truck, isOpen, onClose }) => {
+  const [reviews, setReviews] = useState([]);
   const [newRating, setNewRating] = useState(0);
   const [newReview, setNewReview] = useState('');
   const [showReviewForm, setShowReviewForm] = useState(false);
 
+  useEffect(() => {
+    if (truck) {
+      const storedReviews = JSON.parse(localStorage.getItem(`reviews_${truck.id}`)) || dummyReviews[truck.id] || [];
+      setReviews(storedReviews);
+    }
+  }, [truck]);
+
   if (!isOpen) return null;
 
   const handleSubmitRating = () => {
-    onUpdateRating(truck.id, newRating, newReview);
+    if (newRating === 0 || newReview.trim() === '') {
+      alert('Please provide both a rating and a review.');
+      return;
+    }
+
+    const newReviewObject = {
+      rating: newRating,
+      text: newReview.trim()
+    };
+
+    const updatedReviews = [newReviewObject, ...reviews];
+    setReviews(updatedReviews);
+    localStorage.setItem(`reviews_${truck.id}`, JSON.stringify(updatedReviews));
     setNewRating(0);
     setNewReview('');
     setShowReviewForm(false);
@@ -52,7 +73,7 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onUpdateRating }) => {
           
           <h3 className="text-xl font-semibold mb-2 text-black">Reviews</h3>
           <div className="space-y-4 mb-6">
-            {truck.reviewList?.map((review, index) => (
+            {reviews.map((review, index) => (
               <div key={index} className="border-b pb-2">
                 <StarRating rating={review.rating} />
                 <p className="mt-1 text-black">{review.text}</p>
@@ -63,6 +84,9 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onUpdateRating }) => {
           {showReviewForm && (
             <div>
               <h3 className="text-xl font-semibold mb-2 text-black">Add Your Review</h3>
+              <p className="text-gray-600 mb-4">
+                Note: Your review will be saved in your browser's local storage.
+              </p>
               <div className="space-y-2">
                 <StarRating 
                   rating={newRating} 

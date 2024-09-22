@@ -98,7 +98,8 @@ const foodTrucks = [
     reviews: 201,
     priceRange: "$$",
     hours: "11:00 AM - 9:30 PM",
-    location: { lat: 33.7683, lng: -118.1956 } // Shoreline Village
+    location: { lat: 33.7683, lng: -118.1956 }, // Shoreline Village
+    imageurl: '/images/sushi.png'
   },
   {
     id: '7',

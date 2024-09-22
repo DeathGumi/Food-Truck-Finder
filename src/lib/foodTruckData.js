@@ -81,7 +81,8 @@ const foodTrucks = [
     reviews: 156,
     priceRange: "$$",
     hours: "11:30 AM - 8:00 PM",
-    location: { lat: 33.7900, lng: -118.1364 } // Near Traffic Circle
+    location: { lat: 33.7900, lng: -118.1364 }, // Near Traffic Circle
+    imageurl: '/images/med.png'
   },
   {
     id: '6',

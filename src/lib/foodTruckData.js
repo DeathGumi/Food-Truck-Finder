@@ -265,7 +265,9 @@ const foodTrucks = [
     menu: [
       { item: "Classic Grilled Cheese", price: 6.99 },
       { item: "Mac 'n' Cheese Melt", price: 8.50 },
-      { item: "Cheesy Quesadilla", price: 4.99 }
+      { item: "Cheesy Quesadilla", price: 4.99 },
+      { item: "Filly Cheese Steak", price: 10.99 },
+      { item: "Root Beer ", price: 1.00 }
     ],
     rating: 4.5,
     reviews: 142,

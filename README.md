@@ -116,6 +116,6 @@ Library Used: React Leaflet for map
 # Sept 23rd
 - [ ] Maybe add food truck and save somewhere (can add image)
 - [ ] Add date on reviews 
-- [ ] Make it so logo is specific (Chinese, Mexican (Separate from the rest)) (essentially a tag)
+- [ ] Make it so logo is specific (Chinese, Mexican (Separate from the rest)) (essentially a tag) for the (cuisine)
 - [ ] Reformat a little make page look better (different fonts)
 

@@ -111,3 +111,11 @@ Library Used: React Leaflet for map
 - [ ] Add date on reviews 
 - [x] Added images to all 
 - [ ] Make it so logo is specific (Chinese, Mexican (Separate from the rest))
+
+
+# Sept 23rd
+- [ ] Maybe add food truck and save somewhere (can add image)
+- [ ] Add date on reviews 
+- [ ] Make it so logo is specific (Chinese, Mexican (Separate from the rest)) (essentially a tag)
+- [ ] Reformat a little make page look better (different fonts)
+

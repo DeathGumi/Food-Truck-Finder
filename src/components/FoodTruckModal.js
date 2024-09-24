@@ -13,12 +13,20 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
 
   useEffect(() => {
     if (truck) {
+      const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear().toString().slice(-2)}`;
+      };
+  
       const storedReviews = JSON.parse(localStorage.getItem(`reviews_${truck.id}`)) || dummyReviews[truck.id] || [];
-      setReviews(storedReviews);
+      const formattedReviews = storedReviews.map(review => ({
+        ...review,
+        date: formatDate(review.date)
+      }));
+  
+      setReviews(formattedReviews);
     }
   }, [truck]);
-
-  if (!isOpen) return null;
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -37,11 +45,14 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
       return;
     }
 
+    const today = new Date();
+    const formattedDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/${today.getDate().toString().padStart(2, '0')}/${today.getFullYear().toString().slice(-2)}`;
+
     const newReviewObject = {
-      id: Date.now(), // Ensure unique id for each review
       rating: newRating,
       text: newReview.trim(),
-      image: newImage
+      image: newImage,
+      date: formattedDate
     };
 
     const updatedReviews = [newReviewObject, ...reviews];
@@ -65,7 +76,7 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
 
   const handleDeleteReview = () => {
     if (selectedReview) {
-      const updatedReviews = reviews.filter(review => review.id !== selectedReview.id);
+      const updatedReviews = reviews.filter(review => review !== selectedReview);
       setReviews(updatedReviews);
       localStorage.setItem(`reviews_${truck.id}`, JSON.stringify(updatedReviews));
       setSelectedReview(null);
@@ -128,9 +139,12 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
           
           <h3 className="text-xl font-semibold mb-2 text-black">Reviews</h3>
           <div className="space-y-4 mb-6">
-            {reviews.map((review) => (
-              <div key={review.id} className="border-b pb-2 cursor-pointer" onClick={() => handleReviewClick(review)}>
-                <StarRating rating={review.rating} />
+            {reviews.map((review, index) => (
+              <div key={index} className="border-b pb-2 cursor-pointer" onClick={() => handleReviewClick(review)}>
+                <div className="flex justify-between items-center">
+                  <StarRating rating={review.rating} />
+                  <span className="text-sm text-gray-500">{review.date}</span>
+                </div>
                 <p className="mt-1 text-black">{review.text}</p>
                 {review.image && (
                   <Image
@@ -202,7 +216,10 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
               &times;
             </button>
             <h3 className="text-xl font-semibold mb-2 text-black">Review Details</h3>
-            <StarRating rating={selectedReview.rating} />
+            <div className="flex justify-between items-center">
+              <StarRating rating={selectedReview.rating} />
+              <span className="text-sm text-gray-500">{selectedReview.date}</span>
+            </div>
             <p className="mt-2 text-black">{selectedReview.text}</p>
             {selectedReview.image && (
               <Image

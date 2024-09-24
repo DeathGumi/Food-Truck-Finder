@@ -118,4 +118,5 @@ Library Used: React Leaflet for map
 - [x] Add date on reviews 
 - [x] Make it so logo is specific (Chinese, Mexican (Separate from the rest)) (essentially a tag) for the (cuisine)
 - [ ] Reformat a little make page look better (different fonts)
+- [ ] Since the locate me takes a long time adding a locating... 
 

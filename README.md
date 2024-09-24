@@ -124,4 +124,8 @@ Library Used: React Leaflet for map
 # Sept 24th
 - [ ] Maybe add food truck and save somewhere (can add image)
 - [ ] Reformat a little make page look better (different fonts) / See what to add or remove
+    - [ ] Reformated the Time + Reviews + stars on the modal (clearer)
+    - [ ] Still need to fix modal make look better
+    - [ ] Add reviews ounder the picture
+
 

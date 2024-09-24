@@ -16,6 +16,7 @@ export default function Home() {
   const [mapCenter, setMapCenter] = useState([33.7701, -118.1937]);
   const [mapZoom, setMapZoom] = useState(13);
   const [userLocation, setUserLocation] = useState(null);
+  const [isLocating, setIsLocating] = useState(false);
 
   useEffect(() => {
     const fetchFoodTrucks = async () => {
@@ -44,7 +45,13 @@ export default function Home() {
   };
 
   const handleLocateMe = () => {
-    getCurrentLocation();
+    setIsLocating(true);
+    getCurrentLocation((success) => {
+      setIsLocating(false);
+      if (!success) {
+        alert("Unable to retrieve your location. Please try again.");
+      }
+    });
   };
 
   const handleLocationChange = (newLocation) => {
@@ -66,8 +73,9 @@ export default function Home() {
           <button
             onClick={handleLocateMe}
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded whitespace-nowrap"
+            disabled={isLocating}
           >
-            Locate Me
+            {isLocating ? "Locating..." : "Locate Me"}
           </button>
         </div>
       </header>

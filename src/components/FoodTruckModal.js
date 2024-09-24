@@ -94,38 +94,39 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
       <div className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto relative" onClick={e => e.stopPropagation()}>
         <button 
           onClick={onClose} 
-          className="absolute top-2 right-2 text-xl text-black hover:text-gray-700"
+          className="absolute top-2 right-2 text-xl text-white hover:text-gray-300 z-10"
         >
           &times;
         </button>
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-black">{truck.name}</h2>
-            <button 
-              onClick={() => setShowReviewForm(true)}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            >
-              + Review
-            </button>
-          </div>
-          
+        <div className="relative">
           {truck.imageurl && (
-            <div className="relative w-full h-64 mb-4">
+            <div className="relative w-full h-64">
               <Image 
                 src={truck.imageurl}
                 alt={truck.name} 
                 layout="fill"
                 objectFit="cover"
-                className="rounded-lg"
+                className="rounded-t-lg"
               />
+              <div className="absolute inset-0 bg-black bg-opacity-50 rounded-t-lg"></div>
+              <div className="absolute inset-0 p-6 text-white">
+                <h2 className="text-3xl font-bold mb-2">{truck.name}</h2>
+                <div className="flex items-center justify-between mb-2">
+                  <StarRating rating={truck.rating} />
+                  <span className="text-lg">{truck.reviews} reviews</span>
+                </div>
+                <p className="text-lg">{truck.hours}</p>
+              </div>
             </div>
           )}
-          
-          <div className="mb-4">
-            <StarRating rating={truck.rating} />
-            <span className="ml-2 text-black">{truck.rating.toFixed(1)} ({truck.reviews} reviews)</span>
-          </div>
-          
+          <button 
+            onClick={() => setShowReviewForm(true)}
+            className="absolute top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          >
+            + Review
+          </button>
+        </div>
+        <div className="p-6">
           <p className="text-black mb-4">{truck.description}</p>
           
           <h3 className="text-xl font-semibold mb-2 text-black">Menu</h3>

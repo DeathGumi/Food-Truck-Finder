@@ -112,10 +112,10 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
               <div className="absolute inset-0 p-6 text-white flex flex-col justify-between">
                 <div>
                   <h2 className="text-3xl font-bold mb-2">{truck.name}</h2>
-                  <div className="flex items-center">
-                    <StarRating rating={truck.rating} size="lg" />
-                    <span className="ml-2 text-sm">{truck.rating.toFixed(1)} ({truck.reviews} reviews)</span>
-                  </div>
+                </div>
+              <div className="flex items-center">
+                <StarRating rating={truck.rating} size="lg" />
+                <span className="ml-2 text-sm">({truck.reviews} reviews)</span>
                 </div>
                 <p className="text-lg">{truck.hours}</p>
               </div>

@@ -120,3 +120,8 @@ Library Used: React Leaflet for map
 - [ ] Reformat a little make page look better (different fonts)
 - [x] Since the locate me takes a long time adding a locating... 
 
+
+# Sept 24th
+- [ ] Maybe add food truck and save somewhere (can add image)
+- [ ] Reformat a little make page look better (different fonts) / See what to add or remove
+

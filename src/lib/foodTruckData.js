@@ -297,7 +297,7 @@ const foodTrucks = [
   {
     id: '18',
     name: "Kenny's 85 Degrees Bakery",
-    cuisine: "Bakery & Coffee",
+    cuisine: "Bakery",
     description: "Fresh Asian-inspired pastries and specialty coffee drinks",
     menu: [
       { item: "Sea Salt Coffee", price: 4.50 },

@@ -3,6 +3,10 @@ import { calculateDistanceInMiles } from '../utils/distanceCalculator';
 import StarRating from './StarRating';
 import FoodTruckModal from './FoodTruckModal';
 
+function getCuisineClass(cuisine) {
+  return `cuisine-${cuisine.toLowerCase().replace(/[\s&]+/g, '-')}`;
+}
+
 export default function ListView({ foodTrucks, currentLocation, onUpdateRating }) {
   const [selectedTruck, setSelectedTruck] = useState(null);
 
@@ -61,7 +65,9 @@ export default function ListView({ foodTrucks, currentLocation, onUpdateRating }
               <h3 className="text-2xl font-bold text-black">{truck.name}</h3>
               <span className="text-sm font-semibold text-green-600">{truck.priceRange}</span>
             </div>
-            <p className="text-lg text-gray-700 mb-2">{truck.cuisine}</p>
+            <span className={`cuisine-tag ${getCuisineClass(truck.cuisine)} mb-2 inline-block`}>
+              {truck.cuisine}
+            </span>
             <div className="flex items-center mb-2">
               <StarRating rating={truck.rating} />
               <span className="ml-2 text-sm text-gray-500">({truck.reviews} reviews)</span>

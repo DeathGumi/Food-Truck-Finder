@@ -127,5 +127,4 @@ Library Used: React Leaflet for map
     - [ ] Reformated the Time + Reviews + stars on the modal (clearer)
     - [ ] Still need to fix modal make look better
     - [ ] Add reviews ounder the picture
-
-
+- [ ] Add time when food open 

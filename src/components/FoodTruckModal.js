@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import StarRating from './StarRating';
 import dummyReviews from '../lib/dummyReviews';
+import { isFoodTruckOpen } from '../utils/isFoodTruckOpen';
 
 const FoodTruckModal = ({ truck, isOpen, onClose }) => {
   const [reviews, setReviews] = useState([]);
@@ -89,6 +90,8 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
     }
   };
 
+  const isTruckOpen = isFoodTruckOpen(truck.hours);
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 z-50" onClick={handleOverlayClick}>
       <div className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto relative" onClick={e => e.stopPropagation()}>
@@ -117,7 +120,11 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
                     <span className="ml-2 text-lg">{truck.rating.toFixed(1)} ({truck.reviews} reviews)</span>
                   </div>
                 </div>
-                <div>
+                <div className="flex items-center space-x-2">
+                  <span className={`text-lg font-semibold ${isTruckOpen ? 'text-green-400' : 'text-red-400'}`}>
+                    {isTruckOpen ? 'Open' : 'Closed'}
+                  </span>
+                  <span className="text-lg">•</span>
                   <p className="text-lg">{truck.hours}</p>
                 </div>
               </div>

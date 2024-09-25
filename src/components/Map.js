@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import StarRating from './StarRating';
 import FoodTruckModal from './FoodTruckModal';
+import { isFoodTruckOpen } from '../utils/isFoodTruckOpen';
 
 const foodTruckIcon = new L.Icon({
   iconUrl: 'https://png.pngtree.com/png-clipart/20221217/ourmid/pngtree-pizza-food-trucks-png-image_6527203.png',
@@ -68,6 +69,10 @@ function FoodTruckMarker({ truck, onMarkerClick }) {
       event.target.closePopup();
     },
   };
+
+  if (!isFoodTruckOpen(truck.hours)) {
+    return null; 
+  }
 
   return (
     <Marker 

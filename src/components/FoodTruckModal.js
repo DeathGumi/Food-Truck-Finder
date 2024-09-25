@@ -145,7 +145,11 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
           <h3 className="text-xl font-semibold mb-2 text-black">Reviews</h3>
           <div className="space-y-4 mb-6">
             {reviews.map((review, index) => (
-              <div key={index} className="border-b pb-2 cursor-pointer" onClick={() => handleReviewClick(review)}>
+              <div 
+                key={index} 
+                className="border border-gray-200 rounded-lg p-4 transition-all duration-300 hover:shadow-xl hover:scale-105 cursor-pointer bg-gray-50"
+                onClick={() => handleReviewClick(review)}
+              >
                 <div className="flex justify-between items-center">
                   <StarRating rating={review.rating} />
                   <span className="text-sm text-gray-500">{review.date}</span>

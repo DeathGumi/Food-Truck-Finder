@@ -52,7 +52,7 @@ const StarRating = ({ rating, onRatingChange, editable = false, highlightOnHover
         </svg>
       )}
       {[...Array(emptyStars)].map((_, i) => renderStar(fullStars + (hasHalfStar ? 1 : 0) + i + 1))}
-      <span className="ml-1 text-gray-600 text-sm">{rating.toFixed(1)}</span>
+      <span className="ml-1 text-white text-sm">{rating.toFixed(1)}</span>
     </div>
   );
 };

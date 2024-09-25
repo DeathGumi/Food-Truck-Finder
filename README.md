@@ -126,6 +126,6 @@ Library Used: React Leaflet for map
 - [ ] Reformat a little make page look better (different fonts) / See what to add or remove
     - [x] Reformated the Time + Reviews + stars on the modal (clearer)
     - [ ] Still need to fix modal make look better
-    - [ ] Add reviews under the picture
+    - [ ] Add review button under the picture
 - [ ] Add time when food open (When past time for example its current time is 3:32 but food doesnt open till 4 so it doesnt appear)
 - [ ] Change search (black clearer)

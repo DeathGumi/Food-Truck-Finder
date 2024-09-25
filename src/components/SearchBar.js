@@ -15,7 +15,7 @@ export default function SearchBar({ onSearch }) {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         placeholder="Search for food trucks..."
-        className="px-4 py-2 border rounded-l-md w-64"
+        className="px-4 py-2 border rounded-l-md w-64 text-black"
       />
       <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-r-md whitespace-nowrap">
         Search

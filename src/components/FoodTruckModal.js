@@ -117,7 +117,7 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
                   <h2 className="text-3xl font-bold mb-2">{truck.name}</h2>
                   <div className="flex items-center mb-2">
                     <StarRating rating={truck.rating} size="xl" />
-                    <span className="ml-2 text-lg">{truck.rating.toFixed(1)} ({truck.reviews} reviews)</span>
+                    <span className="ml-2 text-lg"> ({truck.reviews} reviews)</span>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">

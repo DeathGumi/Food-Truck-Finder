@@ -41,6 +41,14 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+
+  @import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+
+.header-title {
+  font-family: 'Bangers', cursive;
+  font-size: 3rem;
+  color: #333;
+}
 }
 
 @layer utilities {

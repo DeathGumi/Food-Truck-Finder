@@ -146,5 +146,5 @@ Library Used: React Leaflet for map
 - [ ] Maybe add food truck and save somewhere (can add image)
 - [ ] Reformat a little make page look better (different fonts) / See what to add or remove
     - [ ] Still need to fix modal make look better
-    - [ ] Add review button under the picture
+    - [x] Add review button under the picture
     - [ ] Add menu button instead of straight up showing the menu

@@ -66,7 +66,9 @@ export default function Home() {
     <div className="flex flex-col h-screen">
       <header className="bg-white shadow-md p-4">
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-black">Food Truck Finder</h1>
+        <h1 style={{ fontFamily: '"Trebuchet MS", Helvetica, Arial, sans-serif' }}>
+          Food Truck Finder
+        </h1>
           <div className="flex-grow mx-4">
             <SearchBar onSearch={handleSearch} />
           </div>

@@ -120,6 +120,7 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
                     <StarRating rating={truck.rating} size="xl" />
                     <span className="ml-2 text-lg"> ({truck.reviews} reviews)</span>
                   </div>
+                  <p className="text-lg text-gray-300 mb-2">{truck.description}</p>
                 </div>
                 <div className="flex items-center space-x-2">
                   <span className={`text-lg font-semibold ${isTruckOpen ? 'text-green-400' : 'text-red-400'}`}>
@@ -149,8 +150,6 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
         </div>
 
         <div className="p-6">
-          <p className="text-black mb-4">{truck.description}</p>
-          
           {showMenu && (
             <>
               <h3 className="text-xl font-semibold mb-2 text-black">Menu</h3>

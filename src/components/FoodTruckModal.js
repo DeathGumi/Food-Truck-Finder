@@ -11,6 +11,7 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
   const [newImage, setNewImage] = useState(null);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [selectedReview, setSelectedReview] = useState(null);
+  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     if (truck) {
@@ -132,26 +133,36 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
           )}
         </div>
         
-        <div className="p-4 bg-gray-100">
+        <div className="p-4 bg-gray-100 flex space-x-4">
           <button 
             onClick={() => setShowReviewForm(true)}
-            className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            className="flex-1 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
           >
             Write a review
+          </button>
+          <button 
+            onClick={() => setShowMenu(!showMenu)}
+            className="flex-1 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+          >
+            {showMenu ? 'Hide menu' : 'View menu'}
           </button>
         </div>
 
         <div className="p-6">
           <p className="text-black mb-4">{truck.description}</p>
           
-          <h3 className="text-xl font-semibold mb-2 text-black">Menu</h3>
-          <ul className="list-disc pl-5 mb-4">
-            {truck.menu.map((item, index) => (
-              <li key={index} className="text-black">
-                {item.item} - ${item.price.toFixed(2)}
-              </li>
-            ))}
-          </ul>
+          {showMenu && (
+            <>
+              <h3 className="text-xl font-semibold mb-2 text-black">Menu</h3>
+              <ul className="list-disc pl-5 mb-4">
+                {truck.menu.map((item, index) => (
+                  <li key={index} className="text-black">
+                    {item.item} - ${item.price.toFixed(2)}
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
           
           <h3 className="text-xl font-semibold mb-2 text-black">Reviews</h3>
           <div className="space-y-4 mb-6">

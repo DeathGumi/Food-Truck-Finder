@@ -147,4 +147,4 @@ Library Used: React Leaflet for map
 - [ ] Reformat a little make page look better (different fonts) / See what to add or remove
     - [ ] Still need to fix modal make look better
     - [x] Add review button under the picture
-    - [ ] Add menu button instead of straight up showing the menu
+    - [x] Add menu button instead of straight up showing the menu

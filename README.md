@@ -148,3 +148,6 @@ Library Used: React Leaflet for map
     - [ ] Still need to fix modal make look better
     - [x] Add review button under the picture
     - [x] Add menu button instead of straight up showing the menu
+    - [x] Changed the Font of the title to differentiate
+    - [ ] Maybe change the color of the font 
+    - [ ] Add seperator betweeen List, Map, Header

@@ -130,13 +130,17 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
               </div>
             </div>
           )}
+        </div>
+        
+        <div className="p-4 bg-gray-100">
           <button 
             onClick={() => setShowReviewForm(true)}
-            className="absolute top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
           >
-            + Review
+            Write a review
           </button>
         </div>
+
         <div className="p-6">
           <p className="text-black mb-4">{truck.description}</p>
           
@@ -174,53 +178,61 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
               </div>
             ))}
           </div>
-          
-          {showReviewForm && (
-            <div>
-              <h3 className="text-xl font-semibold mb-2 text-black">Add Your Review</h3>
-              <p className="text-gray-600 mb-4">
-                Note: Your review will be saved in your browser's local storage.
-              </p>
-              <div className="space-y-2">
-                <StarRating 
-                  rating={newRating} 
-                  onRatingChange={setNewRating} 
-                  editable={true}
-                  highlightOnHover={true}
-                />
-                <textarea 
-                  value={newReview}
-                  onChange={(e) => setNewReview(e.target.value)}
-                  className="w-full p-2 border rounded text-black"
-                  placeholder="Write your review here..."
-                  rows="3"
-                />
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  className="w-full p-2 border rounded text-black"
-                />
-                {newImage && (
-                  <Image
-                    src={newImage}
-                    alt="Review image preview"
-                    width={200}
-                    height={200}
-                    className="mt-2 rounded"
-                  />
-                )}
-                <button 
-                  onClick={handleSubmitRating}
-                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-                >
-                  Submit Review
-                </button>
-              </div>
-            </div>
-          )}
         </div>
       </div>
+
+      {showReviewForm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-60">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full">
+            <h3 className="text-xl font-semibold mb-2 text-black">Add Your Review</h3>
+            <p className="text-gray-600 mb-4">
+              Note: Your review will be saved in your browser's local storage.
+            </p>
+            <div className="space-y-2">
+              <StarRating 
+                rating={newRating} 
+                onRatingChange={setNewRating} 
+                editable={true}
+                highlightOnHover={true}
+              />
+              <textarea 
+                value={newReview}
+                onChange={(e) => setNewReview(e.target.value)}
+                className="w-full p-2 border rounded text-black"
+                placeholder="Write your review here..."
+                rows="3"
+              />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="w-full p-2 border rounded text-black"
+              />
+              {newImage && (
+                <Image
+                  src={newImage}
+                  alt="Review image preview"
+                  width={200}
+                  height={200}
+                  className="mt-2 rounded"
+                />
+              )}
+              <button 
+                onClick={handleSubmitRating}
+                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+              >
+                Submit Review
+              </button>
+              <button 
+                onClick={() => setShowReviewForm(false)}
+                className="ml-2 bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {selectedReview && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-60" onClick={handleCloseReviewDetail}>

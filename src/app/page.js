@@ -66,7 +66,10 @@ export default function Home() {
     <div className="flex flex-col h-screen">
       <header className="bg-white shadow-md p-4">
         <div className="flex justify-between items-center">
-        <h1 style={{ fontFamily: '"Trebuchet MS", Helvetica, Arial, sans-serif' }}>
+        <h1 style={{ 
+          fontFamily: '"Trebuchet MS", Helvetica, Arial, sans-serif',
+          fontSize: '2.5rem'
+        }}>
           Food Truck Finder
         </h1>
           <div className="flex-grow mx-4">

@@ -3,6 +3,7 @@ import { calculateDistanceInMiles } from '../utils/distanceCalculator';
 import StarRating from './StarRating';
 import FoodTruckModal from './FoodTruckModal';
 import { isFoodTruckOpen } from '../utils/isFoodTruckOpen';
+import FilterBar from './FilterBar';
 
 function getCuisineClass(cuisine) {
   return `cuisine-${cuisine.toLowerCase().replace(/[\s&]+/g, '-')}`;
@@ -10,11 +11,27 @@ function getCuisineClass(cuisine) {
 
 export default function ListView({ foodTrucks, currentLocation, onUpdateRating }) {
   const [selectedTruck, setSelectedTruck] = useState(null);
+  const [filters, setFilters] = useState({
+    price: '',
+    cuisine: '',
+    rating: 0,
+    time: '',
+  });
+
+  const filteredFoodTrucks = useMemo(() => {
+    return foodTrucks.filter(truck => {
+      if (filters.price && truck.priceRange !== filters.price) return false;
+      if (filters.cuisine && !truck.cuisine.toLowerCase().includes(filters.cuisine.toLowerCase())) return false;
+      if (filters.rating && truck.rating < filters.rating) return false;
+      if (filters.time === 'open' && !isFoodTruckOpen(truck.hours)) return false;
+      return true;
+    });
+  }, [foodTrucks, filters]);
 
   const sortedFoodTrucks = useMemo(() => {
-    if (!currentLocation) return foodTrucks;
+    if (!currentLocation) return filteredFoodTrucks;
 
-    return [...foodTrucks].sort((a, b) => {
+    return [...filteredFoodTrucks].sort((a, b) => {
       const distanceA = calculateDistanceInMiles(
         currentLocation.latitude,
         currentLocation.longitude,
@@ -29,7 +46,7 @@ export default function ListView({ foodTrucks, currentLocation, onUpdateRating }
       );
       return distanceA - distanceB;
     });
-  }, [foodTrucks, currentLocation]);
+  }, [filteredFoodTrucks, currentLocation]);
 
   const openModal = (truck) => {
     setSelectedTruck(truck);
@@ -39,11 +56,17 @@ export default function ListView({ foodTrucks, currentLocation, onUpdateRating }
     setSelectedTruck(null);
   };
 
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+  };
+
   const openFoodTrucks = sortedFoodTrucks.filter(truck => isFoodTruckOpen(truck.hours));
   const closedFoodTrucks = sortedFoodTrucks.filter(truck => !isFoodTruckOpen(truck.hours));
 
   return (
     <div className="grid grid-cols-1 gap-6 bg-white p-6 relative">
+      <FilterBar onFilterChange={handleFilterChange} />
+      
       {currentLocation && (
         <div className="text-sm text-gray-600 mb-4">
           Sorted by distance from your location

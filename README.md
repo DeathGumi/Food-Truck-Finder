@@ -161,3 +161,4 @@ Library Used: React Leaflet for map
     - [ ] Maybe change the color of the font 
     - [x] Add seperator betweeen List, Map, Header
     - [ ] Maybe add a popularity/busy so people dont have to wait in line
+    - [ ] Filter

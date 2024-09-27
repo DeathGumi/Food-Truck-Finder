@@ -151,3 +151,4 @@ Library Used: React Leaflet for map
     - [x] Changed the Font of the title to differentiate
     - [ ] Maybe change the color of the font 
     - [ ] Add seperator betweeen List, Map, Header
+    - [ ] Maybe add a popularity/busy so people dont have to wait in line

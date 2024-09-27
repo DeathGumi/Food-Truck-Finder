@@ -159,5 +159,5 @@ Library Used: React Leaflet for map
 - [ ] Reformat a little make page look better (different fonts) / See what to add or remove
     - [ ] Still need to fix modal make look better
     - [ ] Maybe change the color of the font 
-    - [ ] Add seperator betweeen List, Map, Header
+    - [x] Add seperator betweeen List, Map, Header
     - [ ] Maybe add a popularity/busy so people dont have to wait in line

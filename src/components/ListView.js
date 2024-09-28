@@ -103,9 +103,12 @@ function ListViewContent({ foodTrucks, currentLocation, onUpdateRating }) {
               <h3 className="text-2xl font-bold text-black">{truck.name}</h3>
               <span className="text-sm font-semibold text-green-600">{truck.priceRange}</span>
             </div>
-            <span className={`cuisine-tag ${getCuisineClass(truck.cuisine)} mb-2 inline-block`}>
-              {truck.cuisine}
-            </span>
+            <div className="flex items-center space-x-2 mb-2">
+              <span className={`cuisine-tag ${getCuisineClass(truck.cuisine)} inline-block px-2 py-1 text-xs font-semibold rounded-full bg-gray-200 text-gray-800`}>
+                {truck.cuisine}
+              </span>
+              <BusynessIndicator level={busynessLevels[truck.id] || 'unknown'} />
+            </div>
             <div className="flex items-center mb-2">
               <StarRating rating={truck.rating} />
               <span className="ml-2 text-sm text-gray-500">({truck.reviews} reviews)</span>
@@ -118,9 +121,6 @@ function ListViewContent({ foodTrucks, currentLocation, onUpdateRating }) {
                   {distance} miles away
                 </span>
               )}
-            </div>
-            <div className="mt-2">
-              <BusynessIndicator level={busynessLevels[truck.id] || 'unknown'} />
             </div>
           </div>
         );
@@ -150,9 +150,11 @@ function ListViewContent({ foodTrucks, currentLocation, onUpdateRating }) {
                   <h3 className="text-2xl font-bold text-black">{truck.name}</h3>
                   <span className="text-sm font-semibold text-green-600">{truck.priceRange}</span>
                 </div>
-                <span className={`cuisine-tag ${getCuisineClass(truck.cuisine)} mb-2 inline-block`}>
-                  {truck.cuisine}
-                </span>
+                <div className="flex items-center space-x-2 mb-2">
+                  <span className={`cuisine-tag ${getCuisineClass(truck.cuisine)} inline-block px-2 py-1 text-xs font-semibold rounded-full bg-gray-200 text-gray-800`}>
+                    {truck.cuisine}
+                  </span>
+                </div>
                 <div className="flex items-center mb-2">
                   <StarRating rating={truck.rating} />
                   <span className="ml-2 text-sm text-gray-500">({truck.reviews} reviews)</span>

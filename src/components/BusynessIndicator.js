@@ -28,8 +28,24 @@ const BusynessIndicator = ({ level }) => {
   };
 
   return (
-    <span className={`inline-block px-2 py-1 text-xs font-semibold rounded-full ${getColor()}`}>
-      {getText()}
+    <span className="relative inline-block">
+      <span className={`relative z-10 inline-block px-2 py-1 text-xs font-semibold rounded-full ${getColor()}`}>
+        {getText()}
+      </span>
+      <span className="absolute inset-0 rounded-full animate-rainbow-border"></span>
+      <style jsx>{`
+        @keyframes rainbow-border {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        .animate-rainbow-border {
+          background: linear-gradient(45deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+          background-size: 200% 200%;
+          animation: rainbow-border 3s linear infinite;
+          filter: blur(3px);
+          opacity: 0.7;
+        }
+      `}</style>
     </span>
   );
 };

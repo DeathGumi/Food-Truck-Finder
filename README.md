@@ -170,4 +170,5 @@ Library Used: React Leaflet for map
 - [ ] Reformat a little make page look better (different fonts) / See what to add or remove
     - [ ] Still need to fix modal make look better
     - [ ] Maybe change the color of the font 
-    - [ ] Maybe add a popularity/busy so people dont have to wait in line
+    - [ ] Forgot to add open and closed to the map 
+    - [x] Maybe add a popularity/busy so people dont have to wait in line

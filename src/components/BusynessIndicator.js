@@ -1,17 +1,16 @@
 import React from 'react';
-import { Circle } from 'lucide-react';
 
 const BusynessIndicator = ({ level }) => {
   const getColor = () => {
     switch (level) {
       case 'busy':
-        return 'text-red-500';
+        return 'bg-red-100 text-red-800';
       case 'regular':
-        return 'text-yellow-500';
+        return 'bg-yellow-100 text-yellow-800';
       case 'slow':
-        return 'text-green-500';
+        return 'bg-green-100 text-green-800';
       default:
-        return 'text-gray-500';
+        return 'bg-gray-100 text-gray-800';
     }
   };
 
@@ -29,10 +28,9 @@ const BusynessIndicator = ({ level }) => {
   };
 
   return (
-    <div className="flex items-center space-x-1">
-      <Circle className={`w-4 h-4 ${getColor()} animate-pulse`} />
-      <span className="text-sm font-medium">{getText()}</span>
-    </div>
+    <span className={`inline-block px-2 py-1 text-xs font-semibold rounded-full ${getColor()}`}>
+      {getText()}
+    </span>
   );
 };
 

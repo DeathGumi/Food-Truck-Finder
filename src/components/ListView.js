@@ -1,15 +1,17 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { calculateDistanceInMiles } from '../utils/distanceCalculator';
 import StarRating from './StarRating';
 import FoodTruckModal from './FoodTruckModal';
 import { isFoodTruckOpen } from '../utils/isFoodTruckOpen';
 import FilterBar from './FilterBar';
+import BusynessIndicator from './BusynessIndicator';
+import { BusynessProvider, useBusyness } from './BusynessManager';
 
 function getCuisineClass(cuisine) {
   return `cuisine-${cuisine.toLowerCase().replace(/[\s&]+/g, '-')}`;
 }
 
-export default function ListView({ foodTrucks, currentLocation, onUpdateRating }) {
+function ListViewContent({ foodTrucks, currentLocation, onUpdateRating }) {
   const [selectedTruck, setSelectedTruck] = useState(null);
   const [filters, setFilters] = useState({
     price: '',
@@ -17,6 +19,13 @@ export default function ListView({ foodTrucks, currentLocation, onUpdateRating }
     rating: 0,
     time: '',
   });
+  const { busynessLevels, initializeBusynessLevels } = useBusyness();
+
+  useEffect(() => {
+    if (foodTrucks.length > 0) {
+      initializeBusynessLevels(foodTrucks);
+    }
+  }, [foodTrucks, initializeBusynessLevels]);
 
   const filteredFoodTrucks = useMemo(() => {
     return foodTrucks.filter(truck => {
@@ -110,6 +119,9 @@ export default function ListView({ foodTrucks, currentLocation, onUpdateRating }
                 </span>
               )}
             </div>
+            <div className="mt-2">
+              <BusynessIndicator level={busynessLevels[truck.id] || 'unknown'} />
+            </div>
           </div>
         );
       })}
@@ -182,5 +194,13 @@ export default function ListView({ foodTrucks, currentLocation, onUpdateRating }
         </div>
       )}
     </div>
+  );
+}
+
+export default function ListView(props) {
+  return (
+    <BusynessProvider>
+      <ListViewContent {...props} />
+    </BusynessProvider>
   );
 }

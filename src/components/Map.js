@@ -94,10 +94,9 @@ function FoodTruckMarker({ truck, onMarkerClick }) {
           </div>
           <p className="mt-2 text-sm">{truck.description}</p>
           <div className="mt-2 flex items-center">
-            <span className={`inline-block px-2 py-1 text-xs font-semibold rounded-full ${isOpen ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-              {isOpen ? 'Open' : 'Closed'}
-            </span>
-            <span className="ml-2 text-sm font-semibold">{truck.hours}</span>
+            <span className="text-green-600 font-semibold">Open</span>
+            <span className="ml-2 text-sm">•</span>
+            <span className="ml-2 text-sm">{truck.hours}</span>
           </div>
         </div>
       </Popup>

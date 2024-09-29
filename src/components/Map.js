@@ -22,6 +22,10 @@ const currentLocationIcon = new L.Icon({
   shadowSize: [41, 41]
 });
 
+function getCuisineClass(cuisine) {
+  return `cuisine-${cuisine.toLowerCase().replace(/[\s&]+/g, '-')}`;
+}
+
 function MapController({ center, zoom }) {
   const map = useMap();
   useEffect(() => {
@@ -87,7 +91,11 @@ function FoodTruckMarker({ truck, onMarkerClick }) {
       <Popup>
         <div className="food-truck-popup">
           <h3 className="font-bold text-lg">{truck.name}</h3>
-          <p className="text-sm text-gray-600">{truck.cuisine}</p>
+          <div className="flex items-center space-x-2 mb-2">
+            <span className={`cuisine-tag ${getCuisineClass(truck.cuisine)} inline-block px-2 py-1 text-xs font-semibold rounded-full bg-gray-200 text-gray-800`}>
+              {truck.cuisine}
+            </span>
+          </div>
           <div className="flex items-center mt-2">
             <StarRating rating={truck.rating} />
             <span className="ml-2 text-sm text-gray-600">({truck.reviews} reviews)</span>

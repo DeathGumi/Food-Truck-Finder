@@ -102,9 +102,7 @@ function FoodTruckMarker({ truck, onMarkerClick }) {
           </div>
           <p className="mt-2 text-sm">{truck.description}</p>
           <div className="mt-2 flex items-center">
-            <span className="text-green-600 font-semibold">Open</span>
-            <span className="ml-2 text-sm">•</span>
-            <span className="ml-2 text-sm">{truck.hours}</span>
+            <span className="text-green-600 font-semibold">Open • {truck.hours}</span>
           </div>
         </div>
       </Popup>

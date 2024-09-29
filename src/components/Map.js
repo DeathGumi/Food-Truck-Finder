@@ -5,6 +5,8 @@ import L from 'leaflet';
 import StarRating from './StarRating';
 import FoodTruckModal from './FoodTruckModal';
 import { isFoodTruckOpen } from '../utils/isFoodTruckOpen';
+import BusynessIndicator from './BusynessIndicator';
+import { BusynessProvider, useBusyness } from './BusynessManager';
 
 const foodTruckIcon = new L.Icon({
   iconUrl: 'https://png.pngtree.com/png-clipart/20221217/ourmid/pngtree-pizza-food-trucks-png-image_6527203.png',
@@ -59,7 +61,7 @@ function DraggableMarker({ position, onPositionChange }) {
   );
 }
 
-function FoodTruckMarker({ truck, onMarkerClick }) {
+function FoodTruckMarker({ truck, onMarkerClick, busynessLevel }) {
   const markerRef = useRef(null);
 
   const eventHandlers = {
@@ -95,6 +97,7 @@ function FoodTruckMarker({ truck, onMarkerClick }) {
             <span className={`cuisine-tag ${getCuisineClass(truck.cuisine)} inline-block px-2 py-1 text-xs font-semibold rounded-full bg-gray-200 text-gray-800`}>
               {truck.cuisine}
             </span>
+            <BusynessIndicator level={busynessLevel} />
           </div>
           <div className="flex items-center mt-2">
             <StarRating rating={truck.rating} />
@@ -110,9 +113,16 @@ function FoodTruckMarker({ truck, onMarkerClick }) {
   );
 }
 
-export default function Map({ foodTrucks, center, zoom, currentLocation, onLocationChange, onUpdateRating }) {
+function MapContent({ foodTrucks, center, zoom, currentLocation, onLocationChange, onUpdateRating }) {
   const [selectedTruck, setSelectedTruck] = useState(null);
   const mapRef = useRef(null);
+  const { busynessLevels, initializeBusynessLevels } = useBusyness();
+
+  useEffect(() => {
+    if (foodTrucks.length > 0) {
+      initializeBusynessLevels(foodTrucks);
+    }
+  }, [foodTrucks, initializeBusynessLevels]);
 
   const handleMarkerClick = (truck) => {
     setSelectedTruck(truck);
@@ -142,7 +152,12 @@ export default function Map({ foodTrucks, center, zoom, currentLocation, onLocat
           />
         )}
         {foodTrucks.map(truck => (
-          <FoodTruckMarker key={truck.id} truck={truck} onMarkerClick={handleMarkerClick} />
+          <FoodTruckMarker 
+            key={truck.id} 
+            truck={truck} 
+            onMarkerClick={handleMarkerClick} 
+            busynessLevel={busynessLevels[truck.id]}
+          />
         ))}
       </MapContainer>
       {selectedTruck && (
@@ -167,5 +182,13 @@ export default function Map({ foodTrucks, center, zoom, currentLocation, onLocat
         </div>
       )}
     </div>
+  );
+}
+
+export default function Map(props) {
+  return (
+    <BusynessProvider>
+      <MapContent {...props} />
+    </BusynessProvider>
   );
 }

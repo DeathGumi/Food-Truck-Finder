@@ -70,7 +70,9 @@ function FoodTruckMarker({ truck, onMarkerClick }) {
     },
   };
 
-  if (!isFoodTruckOpen(truck.hours)) {
+  const isOpen = isFoodTruckOpen(truck.hours);
+
+  if (!isOpen) {
     return null; 
   }
 
@@ -91,7 +93,12 @@ function FoodTruckMarker({ truck, onMarkerClick }) {
             <span className="ml-2 text-sm text-gray-600">({truck.reviews} reviews)</span>
           </div>
           <p className="mt-2 text-sm">{truck.description}</p>
-          <p className="mt-1 text-sm font-semibold">{truck.hours}</p>
+          <div className="mt-2 flex items-center">
+            <span className={`inline-block px-2 py-1 text-xs font-semibold rounded-full ${isOpen ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+              {isOpen ? 'Open' : 'Closed'}
+            </span>
+            <span className="ml-2 text-sm font-semibold">{truck.hours}</span>
+          </div>
         </div>
       </Popup>
     </Marker>

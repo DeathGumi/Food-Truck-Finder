@@ -187,6 +187,10 @@ Library Used: React Leaflet for map
 # Sept 30th
 
 - [ ] Maybe add food truck and save somewhere (can add image)
+    - [x] Can add image
+    - [ ] Fix delete foodtruck
+    - [x] menu is able to work properly 
+    - [ ] need to set if review is added change review on the main
 - [ ] Reformat a little make page look better (different fonts) / See what to add or remove
     - [ ] Still need to fix modal make look better
     - [ ] Maybe change the color of the font 

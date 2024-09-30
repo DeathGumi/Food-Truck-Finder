@@ -1,4 +1,6 @@
-const foodTrucks = [
+import { v4 as uuidv4 } from 'uuid';
+
+let foodTrucks = [
   {
     id: '1',
     name: "Taco Fiesta Wheels",
@@ -118,7 +120,6 @@ const foodTrucks = [
     location: { lat: 33.7542, lng: -118.1305 }, // Near 2nd Street, Naples
     imageurl: '/images/crepe.png'
   },
-  
   {
     id: '8',
     name: "Campus Bites",
@@ -152,7 +153,6 @@ const foodTrucks = [
     hours: "11:00 AM - 8:00 PM",
     location: { lat: 33.7845, lng: -118.1165 }, // Near CSULB
     imageurl: '/images/pho1.png'
-
   },
   {
     id: '10',
@@ -313,18 +313,65 @@ const foodTrucks = [
   }
 ];
 
+const isClient = typeof window !== 'undefined';
+
 export function getAllFoodTrucks() {
+  if (isClient) {
+    const savedTrucks = localStorage.getItem('foodTrucks');
+    if (savedTrucks) {
+      return JSON.parse(savedTrucks);
+    }
+  }
   return foodTrucks;
 }
 
 export function getFoodTruckById(id) {
-  return foodTrucks.find(truck => truck.id === id);
+  const allTrucks = getAllFoodTrucks();
+  return allTrucks.find(truck => truck.id === id);
 }
 
 export function searchFoodTrucks(term) {
-  return foodTrucks.filter(truck => 
+  const allTrucks = getAllFoodTrucks();
+  return allTrucks.filter(truck => 
     truck.name.toLowerCase().includes(term.toLowerCase()) ||
     truck.cuisine.toLowerCase().includes(term.toLowerCase()) ||
     truck.description.toLowerCase().includes(term.toLowerCase())
   );
+}
+
+export function addFoodTruck(newTruck) {
+  const truckWithId = {
+    ...newTruck,
+    id: uuidv4(),
+    rating: 0,
+    reviews: 0
+  };
+  const allTrucks = getAllFoodTrucks();
+  const updatedTrucks = [...allTrucks, truckWithId];
+  saveFoodTrucks(updatedTrucks);
+  return truckWithId;
+}
+
+export function updateFoodTruck(updatedTruck) {
+  const allTrucks = getAllFoodTrucks();
+  const index = allTrucks.findIndex(truck => truck.id === updatedTruck.id);
+  if (index !== -1) {
+    allTrucks[index] = updatedTruck;
+    saveFoodTrucks(allTrucks);
+    return true;
+  }
+  return false;
+}
+
+function saveFoodTrucks(trucks) {
+  if (isClient) {
+    localStorage.setItem('foodTrucks', JSON.stringify(trucks));
+  }
+}
+
+// Initialize local storage  if empty
+if (isClient) {
+  if (!localStorage.getItem('foodTrucks')) {
+    saveFoodTrucks(foodTrucks);
+  }
 }

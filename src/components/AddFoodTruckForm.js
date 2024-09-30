@@ -11,7 +11,7 @@ const AddFoodTruckForm = ({ onAddFoodTruck }) => {
     location: { lat: '', lng: '' },
     imageurl: '',
     menu: [{ item: '', price: '' }]
-  });   
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,14 +65,14 @@ const AddFoodTruckForm = ({ onAddFoodTruck }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newFoodTruck = {
+    const newTruck = {
       ...formData,
-      id: uuidv4(),
-      rating: 0,
-      reviews: 0,
-      menu: formData.menu.filter(item => item.item && item.price)
+      menu: formData.menu.map(item => ({
+        ...item,
+        price: parseFloat(item.price)
+      }))
     };
-    onAddFoodTruck(newFoodTruck);
+    onAddFoodTruck(newTruck);
     setFormData({
       name: '',
       cuisine: '',

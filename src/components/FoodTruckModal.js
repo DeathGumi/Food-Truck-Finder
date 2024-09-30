@@ -163,7 +163,7 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck }) => {
               <ul className="list-disc pl-5 mb-4">
                 {truck.menu.map((item, index) => (
                   <li key={index} className="text-black">
-                    {item.item} - ${item.price.toFixed(2)}
+                    {item.item} - ${typeof item.price === 'number' ? item.price.toFixed(2) : parseFloat(item.price).toFixed(2)}
                   </li>
                 ))}
               </ul>

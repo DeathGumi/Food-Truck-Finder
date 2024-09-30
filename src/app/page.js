@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import SearchBar from '../components/SearchBar';
 import ListView from '../components/ListView';
-import { getAllFoodTrucks, searchFoodTrucks } from '../lib/foodTruckData';
+import { getAllFoodTrucks, searchFoodTrucks, addFoodTruck } from '../lib/foodTruckData';
 import { useGeolocation } from '../hooks/useGeolocation';
+import AddFoodTruckForm from '../components/AddFoodTruckForm';
 
 const Map = dynamic(() => import('../components/Map'), { ssr: false });
 
@@ -17,14 +18,12 @@ export default function Home() {
   const [mapZoom, setMapZoom] = useState(13);
   const [userLocation, setUserLocation] = useState(null);
   const [isLocating, setIsLocating] = useState(false);
+  const [showAddForm, setShowAddForm] = useState(false);
 
   useEffect(() => {
-    const fetchFoodTrucks = async () => {
-      const trucks = await getAllFoodTrucks();
-      setFoodTrucks(trucks);
-      setSearchResults(trucks);
-    };
-    fetchFoodTrucks();
+    const trucks = getAllFoodTrucks();
+    setFoodTrucks(trucks);
+    setSearchResults(trucks);
   }, []);
 
   useEffect(() => {
@@ -35,11 +34,11 @@ export default function Home() {
     }
   }, [location]);
 
-  const handleSearch = async (term) => {
+  const handleSearch = (term) => {
     if (term.trim() === '') {
       setSearchResults(foodTrucks);
     } else {
-      const results = await searchFoodTrucks(term);
+      const results = searchFoodTrucks(term);
       setSearchResults(results);
     }
   };
@@ -62,6 +61,13 @@ export default function Home() {
     setMapCenter([newLocation.lat, newLocation.lng]);
   };
 
+  const handleAddFoodTruck = (newTruck) => {
+    const addedTruck = addFoodTruck(newTruck);
+    setFoodTrucks(prevTrucks => [...prevTrucks, addedTruck]);
+    setSearchResults(prevResults => [...prevResults, addedTruck]);
+    setShowAddForm(false);
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <header className="bg-white shadow-md p-4">
@@ -77,10 +83,16 @@ export default function Home() {
           </div>
           <button
             onClick={handleLocateMe}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded whitespace-nowrap"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded whitespace-nowrap mr-2"
             disabled={isLocating}
           >
             {isLocating ? "Locating..." : "Locate Me"}
+          </button>
+          <button
+            onClick={() => setShowAddForm(!showAddForm)}
+            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded whitespace-nowrap"
+          >
+            {showAddForm ? "Hide Form" : "Add Food Truck"}
           </button>
         </div>
       </header>
@@ -89,7 +101,11 @@ export default function Home() {
 
       <main className="flex flex-1 overflow-hidden">
         <section className="w-1/3 overflow-y-auto p-4 bg-white">
-          <ListView foodTrucks={searchResults} currentLocation={userLocation} />
+          {showAddForm ? (
+            <AddFoodTruckForm onAddFoodTruck={handleAddFoodTruck} />
+          ) : (
+            <ListView foodTrucks={searchResults} currentLocation={userLocation} />
+          )}
         </section>
         <section className="w-2/3">
           <Map 

@@ -4,7 +4,7 @@ import StarRating from './StarRating';
 import dummyReviews from '../lib/dummyReviews';
 import { isFoodTruckOpen } from '../utils/isFoodTruckOpen';
 
-const FoodTruckModal = ({ truck, isOpen, onClose }) => {
+const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck }) => {
   const [reviews, setReviews] = useState([]);
   const [newRating, setNewRating] = useState(0);
   const [newReview, setNewReview] = useState('');
@@ -88,6 +88,13 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
   const handleCloseReviewDetail = (e) => {
     if (e.target === e.currentTarget) {
       setSelectedReview(null);
+    }
+  };
+
+  const handleDeleteFoodTruck = () => {
+    if (window.confirm('Are you sure you want to delete this food truck?')) {
+      onDeleteFoodTruck(truck.id);
+      onClose();
     }
   };
 
@@ -187,6 +194,15 @@ const FoodTruckModal = ({ truck, isOpen, onClose }) => {
                 )}
               </div>
             ))}
+          </div>
+
+          <div className="mt-6 flex justify-end">
+            <button 
+              onClick={handleDeleteFoodTruck}
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300"
+            >
+              Delete Food Truck
+            </button>
           </div>
         </div>
       </div>

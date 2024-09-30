@@ -182,3 +182,11 @@ Library Used: React Leaflet for map
     - [x] Forgot to add open and closed to the map 
     - [x] added tag for cusine
     - [x] added busyness indicator
+
+
+# Sept 30th
+
+- [ ] Maybe add food truck and save somewhere (can add image)
+- [ ] Reformat a little make page look better (different fonts) / See what to add or remove
+    - [ ] Still need to fix modal make look better
+    - [ ] Maybe change the color of the font 

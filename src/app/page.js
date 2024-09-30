@@ -4,9 +4,10 @@ import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import SearchBar from '../components/SearchBar';
 import ListView from '../components/ListView';
-import { getAllFoodTrucks, searchFoodTrucks, addFoodTruck } from '../lib/foodTruckData';
+import { getAllFoodTrucks, searchFoodTrucks, addFoodTruck, deleteFoodTruck } from '../lib/foodTruckData';
 import { useGeolocation } from '../hooks/useGeolocation';
 import AddFoodTruckForm from '../components/AddFoodTruckForm';
+import FoodTruckModal from '../components/FoodTruckModal';
 
 const Map = dynamic(() => import('../components/Map'), { ssr: false });
 
@@ -19,6 +20,7 @@ export default function Home() {
   const [userLocation, setUserLocation] = useState(null);
   const [isLocating, setIsLocating] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [selectedTruck, setSelectedTruck] = useState(null);
 
   useEffect(() => {
     const trucks = getAllFoodTrucks();
@@ -68,6 +70,17 @@ export default function Home() {
     setShowAddForm(false);
   };
 
+  const handleDeleteFoodTruck = (truckId) => {
+    deleteFoodTruck(truckId);
+    const updatedTrucks = foodTrucks.filter(truck => truck.id !== truckId);
+    setFoodTrucks(updatedTrucks);
+    setSearchResults(updatedTrucks);
+  };
+
+  const handleTruckClick = (truck) => {
+    setSelectedTruck(truck);
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <header className="bg-white shadow-md p-4">
@@ -104,7 +117,11 @@ export default function Home() {
           {showAddForm ? (
             <AddFoodTruckForm onAddFoodTruck={handleAddFoodTruck} />
           ) : (
-            <ListView foodTrucks={searchResults} currentLocation={userLocation} />
+            <ListView 
+              foodTrucks={searchResults} 
+              currentLocation={userLocation} 
+              onTruckClick={handleTruckClick}
+            />
           )}
         </section>
         <section className="w-2/3">
@@ -114,9 +131,19 @@ export default function Home() {
             zoom={mapZoom} 
             currentLocation={userLocation}
             onLocationChange={handleLocationChange}
+            onTruckClick={handleTruckClick}
           />
         </section>
       </main>
+
+      {selectedTruck && (
+        <FoodTruckModal
+          truck={selectedTruck}
+          isOpen={!!selectedTruck}
+          onClose={() => setSelectedTruck(null)}
+          onDeleteFoodTruck={handleDeleteFoodTruck}
+        />
+      )}
     </div>
   );
 }

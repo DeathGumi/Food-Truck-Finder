@@ -344,12 +344,23 @@ export function addFoodTruck(newTruck) {
     ...newTruck,
     id: uuidv4(),
     rating: 0,
-    reviews: 0
+    reviews: 0,
+    menu: newTruck.menu.map(item => ({
+      ...item,
+      price: parseFloat(item.price)
+    }))
   };
   const allTrucks = getAllFoodTrucks();
   const updatedTrucks = [...allTrucks, truckWithId];
   saveFoodTrucks(updatedTrucks);
   return truckWithId;
+}
+
+export function deleteFoodTruck(id) {
+  const allTrucks = getAllFoodTrucks();
+  const updatedTrucks = allTrucks.filter(truck => truck.id !== id);
+  saveFoodTrucks(updatedTrucks);
+  return true;
 }
 
 export function updateFoodTruck(updatedTruck) {

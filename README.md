@@ -208,3 +208,4 @@ Library Used: React Leaflet for map
     - [ ] Maybe change the color of the font 
 
 - [x] For New food Trucks show the Title and all of the data liek the otheer food trucks keep same format if no picture just dispaly like an empty default space
+- [x] Update + 1 review at least

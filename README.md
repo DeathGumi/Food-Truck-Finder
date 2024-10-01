@@ -194,3 +194,15 @@ Library Used: React Leaflet for map
 - [ ] Reformat a little make page look better (different fonts) / See what to add or remove
     - [ ] Still need to fix modal make look better
     - [ ] Maybe change the color of the font 
+
+
+# Oct 1st
+
+# Sept 30th
+
+- [ ] Maybe add food truck and save somewhere (can add image)
+    - [ ] Fix delete foodtruck (Bugged )
+    - [ ] need to set if review is added change review on the main (stars show up and reviews update + 1)
+- [ ] Reformat a little make page look better (different fonts) / See what to add or remove
+    - [ ] Still need to fix modal make look better
+    - [ ] Maybe change the color of the font 

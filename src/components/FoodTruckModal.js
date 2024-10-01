@@ -3,8 +3,9 @@ import Image from 'next/image';
 import StarRating from './StarRating';
 import dummyReviews from '../lib/dummyReviews';
 import { isFoodTruckOpen } from '../utils/isFoodTruckOpen';
+import { updateFoodTruck, addReviewToTruck } from '../lib/foodTruckData';
 
-const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onAddReview }) => {
+const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTruck }) => {
   const [reviews, setReviews] = useState([]);
   const [newRating, setNewRating] = useState(0);
   const [newReview, setNewReview] = useState('');
@@ -12,6 +13,7 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onAddReview
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [selectedReview, setSelectedReview] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
+  const [localTruck, setLocalTruck] = useState(truck);
 
   useEffect(() => {
     if (truck) {
@@ -27,6 +29,7 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onAddReview
       }));
   
       setReviews(formattedReviews);
+      setLocalTruck(truck);
     }
   }, [truck]);
 
@@ -59,10 +62,19 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onAddReview
 
     const updatedReviews = [newReviewObject, ...reviews];
     setReviews(updatedReviews);
-    localStorage.setItem(`reviews_${truck.id}`, JSON.stringify(updatedReviews));
+    localStorage.setItem(`reviews_${localTruck.id}`, JSON.stringify(updatedReviews));
     
-    if (onAddReview) {
-      onAddReview(truck.id, newReviewObject);
+    const updatedTruck = {
+      ...localTruck,
+      reviews: localTruck.reviews + 1
+    };
+    setLocalTruck(updatedTruck);
+
+    addReviewToTruck(localTruck.id, newReviewObject);
+    updateFoodTruck(updatedTruck);
+    
+    if (onUpdateTruck) {
+      onUpdateTruck(updatedTruck);
     }
 
     setNewRating(0);
@@ -85,7 +97,20 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onAddReview
     if (selectedReview) {
       const updatedReviews = reviews.filter(review => review !== selectedReview);
       setReviews(updatedReviews);
-      localStorage.setItem(`reviews_${truck.id}`, JSON.stringify(updatedReviews));
+      localStorage.setItem(`reviews_${localTruck.id}`, JSON.stringify(updatedReviews));
+      
+      const updatedTruck = {
+        ...localTruck,
+        reviews: Math.max(0, localTruck.reviews - 1)
+      };
+      setLocalTruck(updatedTruck);
+
+      updateFoodTruck(updatedTruck);
+      
+      if (onUpdateTruck) {
+        onUpdateTruck(updatedTruck);
+      }
+
       setSelectedReview(null);
     }
   };
@@ -98,12 +123,12 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onAddReview
 
   const handleDeleteFoodTruck = () => {
     if (window.confirm('Are you sure you want to delete this food truck?')) {
-      onDeleteFoodTruck(truck.id);
+      onDeleteFoodTruck(localTruck.id);
       onClose();
     }
   };
 
-  const isTruckOpen = isFoodTruckOpen(truck.hours);
+  const isTruckOpen = isFoodTruckOpen(localTruck.hours);
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 z-50" onClick={handleOverlayClick}>
@@ -117,8 +142,8 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onAddReview
         <div className="relative">
           <div className="relative w-full h-64">
             <Image 
-              src={truck.imageurl || '/default-food-truck-image.jpg'}
-              alt={truck.name} 
+              src={localTruck.imageurl || '/default-food-truck-image.jpg'}
+              alt={localTruck.name} 
               layout="fill"
               objectFit="cover"
               className="rounded-t-lg"
@@ -126,19 +151,19 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onAddReview
             <div className="absolute inset-0 bg-black bg-opacity-50 rounded-t-lg"></div>
             <div className="absolute inset-0 p-6 text-white flex flex-col justify-between">
               <div>
-                <h2 className="text-3xl font-bold mb-2">{truck.name || 'Unnamed Food Truck'}</h2>
+                <h2 className="text-3xl font-bold mb-2">{localTruck.name || 'Unnamed Food Truck'}</h2>
                 <div className="flex items-center mb-2">
-                  <StarRating rating={truck.rating || 0} size="xl" />
-                  <span className="ml-2 text-lg"> ({truck.reviews || 0} reviews)</span>
+                  <StarRating rating={localTruck.rating || 0} size="xl" />
+                  <span className="ml-2 text-lg"> ({localTruck.reviews || 0} reviews)</span>
                 </div>
-                <p className="text-lg text-gray-300 mb-2">{truck.description || 'No description available'}</p>
+                <p className="text-lg text-gray-300 mb-2">{localTruck.description || 'No description available'}</p>
               </div>
               <div className="flex items-center space-x-2">
                 <span className={`text-lg font-semibold ${isTruckOpen ? 'text-green-400' : 'text-red-400'}`}>
                   {isTruckOpen ? 'Open' : 'Closed'}
                 </span>
                 <span className="text-lg">•</span>
-                <p className="text-lg">{truck.hours || 'Hours not specified'}</p>
+                <p className="text-lg">{localTruck.hours || 'Hours not specified'}</p>
               </div>
             </div>
           </div>
@@ -164,7 +189,7 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onAddReview
             <>
               <h3 className="text-xl font-semibold mb-2 text-black">Menu</h3>
               <ul className="list-disc pl-5 mb-4">
-                {(truck.menu || []).map((item, index) => (
+                {localTruck.menu && localTruck.menu.map((item, index) => (
                   <li key={index} className="text-black">
                     {item.item} - ${typeof item.price === 'number' ? item.price.toFixed(2) : parseFloat(item.price).toFixed(2)}
                   </li>

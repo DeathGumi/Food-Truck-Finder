@@ -4,7 +4,7 @@ import StarRating from './StarRating';
 import dummyReviews from '../lib/dummyReviews';
 import { isFoodTruckOpen } from '../utils/isFoodTruckOpen';
 
-const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck }) => {
+const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onAddReview }) => {
   const [reviews, setReviews] = useState([]);
   const [newRating, setNewRating] = useState(0);
   const [newReview, setNewReview] = useState('');
@@ -60,6 +60,11 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck }) => {
     const updatedReviews = [newReviewObject, ...reviews];
     setReviews(updatedReviews);
     localStorage.setItem(`reviews_${truck.id}`, JSON.stringify(updatedReviews));
+    
+    if (onAddReview) {
+      onAddReview(truck.id, newReviewObject);
+    }
+
     setNewRating(0);
     setNewReview('');
     setNewImage(null);
@@ -105,40 +110,38 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck }) => {
       <div className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto relative" onClick={e => e.stopPropagation()}>
         <button 
           onClick={onClose} 
-          className="absolute top-2 right-2 text-xl text-white hover:text-gray-300 z-10"
+          className="absolute top-2 right-2 text-xl text-black hover:text-gray-700 z-10"
         >
           &times;
         </button>
         <div className="relative">
-          {truck.imageurl && (
-            <div className="relative w-full h-64">
-              <Image 
-                src={truck.imageurl}
-                alt={truck.name} 
-                layout="fill"
-                objectFit="cover"
-                className="rounded-t-lg"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-50 rounded-t-lg"></div>
-              <div className="absolute inset-0 p-6 text-white flex flex-col justify-between">
-                <div>
-                  <h2 className="text-3xl font-bold mb-2">{truck.name}</h2>
-                  <div className="flex items-center mb-2">
-                    <StarRating rating={truck.rating} size="xl" />
-                    <span className="ml-2 text-lg"> ({truck.reviews} reviews)</span>
-                  </div>
-                  <p className="text-lg text-gray-300 mb-2">{truck.description}</p>
+          <div className="relative w-full h-64">
+            <Image 
+              src={truck.imageurl || '/default-food-truck-image.jpg'}
+              alt={truck.name} 
+              layout="fill"
+              objectFit="cover"
+              className="rounded-t-lg"
+            />
+            <div className="absolute inset-0 bg-black bg-opacity-50 rounded-t-lg"></div>
+            <div className="absolute inset-0 p-6 text-white flex flex-col justify-between">
+              <div>
+                <h2 className="text-3xl font-bold mb-2">{truck.name || 'Unnamed Food Truck'}</h2>
+                <div className="flex items-center mb-2">
+                  <StarRating rating={truck.rating || 0} size="xl" />
+                  <span className="ml-2 text-lg"> ({truck.reviews || 0} reviews)</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <span className={`text-lg font-semibold ${isTruckOpen ? 'text-green-400' : 'text-red-400'}`}>
-                    {isTruckOpen ? 'Open' : 'Closed'}
-                  </span>
-                  <span className="text-lg">•</span>
-                  <p className="text-lg">{truck.hours}</p>
-                </div>
+                <p className="text-lg text-gray-300 mb-2">{truck.description || 'No description available'}</p>
+              </div>
+              <div className="flex items-center space-x-2">
+                <span className={`text-lg font-semibold ${isTruckOpen ? 'text-green-400' : 'text-red-400'}`}>
+                  {isTruckOpen ? 'Open' : 'Closed'}
+                </span>
+                <span className="text-lg">•</span>
+                <p className="text-lg">{truck.hours || 'Hours not specified'}</p>
               </div>
             </div>
-          )}
+          </div>
         </div>
         
         <div className="p-4 bg-gray-100 flex space-x-4">
@@ -161,7 +164,7 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck }) => {
             <>
               <h3 className="text-xl font-semibold mb-2 text-black">Menu</h3>
               <ul className="list-disc pl-5 mb-4">
-                {truck.menu.map((item, index) => (
+                {(truck.menu || []).map((item, index) => (
                   <li key={index} className="text-black">
                     {item.item} - ${typeof item.price === 'number' ? item.price.toFixed(2) : parseFloat(item.price).toFixed(2)}
                   </li>

@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { calculateDistanceInMiles } from '../utils/distanceCalculator';
 import StarRating from './StarRating';
 import FoodTruckModal from './FoodTruckModal';
@@ -6,12 +6,14 @@ import { isFoodTruckOpen } from '../utils/isFoodTruckOpen';
 import FilterBar from './FilterBar';
 import BusynessIndicator from './BusynessIndicator';
 import { BusynessProvider, useBusyness } from './BusynessManager';
+import { getAllFoodTrucks, addReviewToTruck } from '../lib/foodTruckData';
 
 function getCuisineClass(cuisine) {
   return `cuisine-${cuisine.toLowerCase().replace(/[\s&]+/g, '-')}`;
 }
 
-function ListViewContent({ foodTrucks, currentLocation, onUpdateRating }) {
+function ListViewContent({ currentLocation, onUpdateRating }) {
+  const [foodTrucks, setFoodTrucks] = useState([]);
   const [selectedTruck, setSelectedTruck] = useState(null);
   const [filters, setFilters] = useState({
     price: '',
@@ -21,11 +23,28 @@ function ListViewContent({ foodTrucks, currentLocation, onUpdateRating }) {
   });
   const { busynessLevels, initializeBusynessLevels } = useBusyness();
 
+  const refreshFoodTrucks = useCallback(() => {
+    const trucks = getAllFoodTrucks();
+    setFoodTrucks(trucks);
+  }, []);
+
+  useEffect(() => {
+    refreshFoodTrucks();
+  }, [refreshFoodTrucks]);
+
   useEffect(() => {
     if (foodTrucks.length > 0) {
       initializeBusynessLevels(foodTrucks);
     }
   }, [foodTrucks, initializeBusynessLevels]);
+
+  const handleAddReview = useCallback((truckId, review) => {
+    addReviewToTruck(truckId, review);
+    refreshFoodTrucks();
+    if (onUpdateRating) {
+      onUpdateRating();
+    }
+  }, [refreshFoodTrucks, onUpdateRating]);
 
   const filteredFoodTrucks = useMemo(() => {
     return foodTrucks.filter(truck => {
@@ -57,20 +76,21 @@ function ListViewContent({ foodTrucks, currentLocation, onUpdateRating }) {
     });
   }, [filteredFoodTrucks, currentLocation]);
 
-  const openModal = (truck) => {
+  const openModal = useCallback((truck) => {
     setSelectedTruck(truck);
-  };
+  }, []);
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setSelectedTruck(null);
-  };
+    refreshFoodTrucks();
+  }, [refreshFoodTrucks]);
 
-  const handleFilterChange = (newFilters) => {
+  const handleFilterChange = useCallback((newFilters) => {
     setFilters(newFilters);
-  };
+  }, []);
 
-  const openFoodTrucks = sortedFoodTrucks.filter(truck => isFoodTruckOpen(truck.hours));
-  const closedFoodTrucks = sortedFoodTrucks.filter(truck => !isFoodTruckOpen(truck.hours));
+  const openFoodTrucks = useMemo(() => sortedFoodTrucks.filter(truck => isFoodTruckOpen(truck.hours)), [sortedFoodTrucks]);
+  const closedFoodTrucks = useMemo(() => sortedFoodTrucks.filter(truck => !isFoodTruckOpen(truck.hours)), [sortedFoodTrucks]);
 
   return (
     <div className="grid grid-cols-1 gap-6 bg-white p-6 relative">
@@ -82,7 +102,6 @@ function ListViewContent({ foodTrucks, currentLocation, onUpdateRating }) {
         </div>
       )}
       
-      {/* Open food trucks */}
       {openFoodTrucks.map(truck => {
         const distance = currentLocation
           ? calculateDistanceInMiles(
@@ -126,7 +145,6 @@ function ListViewContent({ foodTrucks, currentLocation, onUpdateRating }) {
         );
       })}
 
-      {/* Closed food trucks */}
       {closedFoodTrucks.length > 0 && (
         <div className="mt-8">
           <h3 className="text-xl font-bold mb-4">Closed Food Trucks</h3>
@@ -191,7 +209,7 @@ function ListViewContent({ foodTrucks, currentLocation, onUpdateRating }) {
             truck={selectedTruck}
             isOpen={!!selectedTruck}
             onClose={closeModal}
-            onUpdateRating={onUpdateRating}
+            onAddReview={handleAddReview}
           />
         </div>
       )}

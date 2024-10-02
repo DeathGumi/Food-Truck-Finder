@@ -6,7 +6,9 @@ import { isFoodTruckOpen } from '../utils/isFoodTruckOpen';
 import FilterBar from './FilterBar';
 import BusynessIndicator from './BusynessIndicator';
 import { BusynessProvider, useBusyness } from './BusynessManager';
-import { getAllFoodTrucks, addReviewToTruck } from '../lib/foodTruckData';
+import { getAllFoodTrucks, addReviewToTruck, updateFoodTruck } from '../lib/foodTruckData';
+import { calculateAverageRating, getReviewsFromLocalStorage, updateTruckWithNewReview, saveReviewToLocalStorage, initializeReviewsIfNeeded } from '../utils/ratingUtils';
+import dummyReviews from '../lib/dummyReviews';
 
 function getCuisineClass(cuisine) {
   return `cuisine-${cuisine.toLowerCase().replace(/[\s&]+/g, '-')}`;
@@ -25,7 +27,12 @@ function ListViewContent({ currentLocation, onUpdateRating }) {
 
   const refreshFoodTrucks = useCallback(() => {
     const trucks = getAllFoodTrucks();
-    setFoodTrucks(trucks);
+    const trucksWithUpdatedRatings = trucks.map(truck => {
+      const reviews = initializeReviewsIfNeeded(truck, dummyReviews);
+      const averageRating = calculateAverageRating(reviews);
+      return { ...truck, rating: averageRating, reviews: reviews.length };
+    });
+    setFoodTrucks(trucksWithUpdatedRatings);
   }, []);
 
   useEffect(() => {
@@ -39,12 +46,17 @@ function ListViewContent({ currentLocation, onUpdateRating }) {
   }, [foodTrucks, initializeBusynessLevels]);
 
   const handleAddReview = useCallback((truckId, review) => {
-    addReviewToTruck(truckId, review);
-    refreshFoodTrucks();
-    if (onUpdateRating) {
-      onUpdateRating();
+    const truck = foodTrucks.find(t => t.id === truckId);
+    if (truck) {
+      const updatedTruck = updateTruckWithNewReview(truck, review);
+      saveReviewToLocalStorage(truckId, updatedTruck.reviewsData);
+      updateFoodTruck(updatedTruck);
+      refreshFoodTrucks();
+      if (onUpdateRating) {
+        onUpdateRating();
+      }
     }
-  }, [refreshFoodTrucks, onUpdateRating]);
+  }, [foodTrucks, refreshFoodTrucks, onUpdateRating]);
 
   const filteredFoodTrucks = useMemo(() => {
     return foodTrucks.filter(truck => {

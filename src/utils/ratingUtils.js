@@ -5,14 +5,15 @@ export function calculateAverageRating(reviews) {
   }
   
   export function updateTruckWithNewReview(truck, newReview) {
-    const updatedReviews = [newReview, ...(truck.reviews || [])];
+    const existingReviews = getReviewsFromLocalStorage(truck.id);
+    const updatedReviews = [newReview, ...existingReviews];
     const averageRating = calculateAverageRating(updatedReviews);
     
     return {
       ...truck,
       rating: averageRating,
       reviews: updatedReviews.length,
-      reviewsData: updatedReviews 
+      reviewsData: updatedReviews
     };
   }
   
@@ -23,4 +24,13 @@ export function calculateAverageRating(reviews) {
   export function getReviewsFromLocalStorage(truckId) {
     const storedReviews = localStorage.getItem(`reviews_${truckId}`);
     return storedReviews ? JSON.parse(storedReviews) : [];
+  }
+  
+  export function initializeReviewsIfNeeded(truck, dummyReviews) {
+    const existingReviews = getReviewsFromLocalStorage(truck.id);
+    if (existingReviews.length === 0 && dummyReviews[truck.id]) {
+      saveReviewToLocalStorage(truck.id, dummyReviews[truck.id]);
+      return dummyReviews[truck.id];
+    }
+    return existingReviews;
   }

@@ -394,15 +394,16 @@ function getReviewsForTruck(truckId) {
   if (isClient) {
     const reviewsKey = `reviews_${truckId}`;
     const savedReviews = localStorage.getItem(reviewsKey);
-    return savedReviews ? JSON.parse(savedReviews) : [];
+    if (savedReviews) {
+      return JSON.parse(savedReviews);
+    }
   }
   return [];
 }
 
 export function addReviewToTruck(truckId, review) {
   if (isClient) {
-    const reviews = getReviewsForTruck(truckId);
-    reviews.push(review);
+    const reviews = [review]; 
     localStorage.setItem(`reviews_${truckId}`, JSON.stringify(reviews));
     
     const allTrucks = getAllFoodTrucks();
@@ -410,7 +411,7 @@ export function addReviewToTruck(truckId, review) {
     if (truckIndex !== -1) {
       const truck = allTrucks[truckIndex];
       truck.reviews = reviews.length;
-      truck.rating = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+      truck.rating = review.rating; 
       saveFoodTrucks(allTrucks);
     }
   }

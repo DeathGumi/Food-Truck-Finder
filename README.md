@@ -198,7 +198,6 @@ Library Used: React Leaflet for map
 
 # Oct 1st
 
-# Sept 30th
 
 - [ ] Maybe add food truck and save somewhere (can add image)
     - [ ] Fix delete foodtruck (Still bugged)
@@ -209,3 +208,12 @@ Library Used: React Leaflet for map
 
 - [x] For New food Trucks show the Title and all of the data liek the otheer food trucks keep same format if no picture just dispaly like an empty default space
 - [x] Update + 1 review at least
+
+# Oct 2 
+
+- [ ] Maybe add food truck and save somewhere (can add image)
+    - [ ] Fix delete foodtruck (Still bugged)
+    - [ ] need to set if review is added change review on the main (stars show up and reviews update + 1) (Still bugged)
+- [ ] Reformat a little make page look better (different fonts) / See what to add or remove
+    - [ ] Still need to fix modal make look better
+    - [ ] Maybe change the color of the font 

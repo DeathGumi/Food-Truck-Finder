@@ -22,8 +22,9 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTru
         return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear().toString().slice(-2)}`;
       };
   
-      const storedReviews = JSON.parse(localStorage.getItem(`reviews_${truck.id}`)) || dummyReviews[truck.id] || [];
-      const formattedReviews = storedReviews.map(review => ({
+      const storedReviews = JSON.parse(localStorage.getItem(`reviews_${truck.id}`)) || [];
+      const reviewsToUse = storedReviews.length > 0 ? storedReviews : (dummyReviews[truck.id] || []);
+      const formattedReviews = reviewsToUse.map(review => ({
         ...review,
         date: formatDate(review.date)
       }));

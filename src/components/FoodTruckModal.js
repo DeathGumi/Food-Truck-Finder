@@ -6,6 +6,7 @@ import { isFoodTruckOpen } from '../utils/isFoodTruckOpen';
 import { updateFoodTruck, addReviewToTruck } from '../lib/foodTruckData';
 
 const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTruck }) => {
+  console.log('onDeleteFoodTruck:', onDeleteFoodTruck);
   const [reviews, setReviews] = useState([]);
   const [newRating, setNewRating] = useState(0);
   const [newReview, setNewReview] = useState('');
@@ -123,7 +124,10 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTru
   };
 
   const handleDeleteFoodTruck = () => {
+    console.log('Delete button clicked');
+    console.log('onDeleteFoodTruck function:', onDeleteFoodTruck);
     if (window.confirm('Are you sure you want to delete this food truck?')) {
+      console.log('Confirmation accepted, attempting to delete');
       onDeleteFoodTruck(localTruck.id);
       onClose();
     }

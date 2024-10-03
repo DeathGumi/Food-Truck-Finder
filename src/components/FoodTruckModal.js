@@ -128,8 +128,12 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTru
     console.log('onDeleteFoodTruck function:', onDeleteFoodTruck);
     if (window.confirm('Are you sure you want to delete this food truck?')) {
       console.log('Confirmation accepted, attempting to delete');
-      onDeleteFoodTruck(localTruck.id);
-      onClose();
+      if (typeof onDeleteFoodTruck === 'function') {
+        onDeleteFoodTruck(localTruck.id);
+        onClose();
+      } else {
+        console.error('onDeleteFoodTruck is not a function');
+      }
     }
   };
 

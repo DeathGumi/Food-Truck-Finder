@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { calculateAverageRating } from '../utils/ratingUtils';
 
 let foodTrucks = [
   {
@@ -364,6 +365,7 @@ export function deleteFoodTruck(id) {
   const allTrucks = getAllFoodTrucks();
   const updatedTrucks = allTrucks.filter(truck => truck.id !== id);
   saveFoodTrucks(updatedTrucks);
+  localStorage.removeItem(`reviews_${id}`);
   return true;
 }
 
@@ -403,15 +405,18 @@ function getReviewsForTruck(truckId) {
 
 export function addReviewToTruck(truckId, review) {
   if (isClient) {
-    const reviews = [review]; 
-    localStorage.setItem(`reviews_${truckId}`, JSON.stringify(reviews));
+    const existingReviews = getReviewsForTruck(truckId);
+    
+    const updatedReviews = [review, ...existingReviews];
+    
+    localStorage.setItem(`reviews_${truckId}`, JSON.stringify(updatedReviews));
     
     const allTrucks = getAllFoodTrucks();
     const truckIndex = allTrucks.findIndex(truck => truck.id === truckId);
     if (truckIndex !== -1) {
       const truck = allTrucks[truckIndex];
-      truck.reviews = reviews.length;
-      truck.rating = review.rating; 
+      truck.reviews = updatedReviews.length;
+      truck.rating = calculateAverageRating(updatedReviews);
       saveFoodTrucks(allTrucks);
     }
   }

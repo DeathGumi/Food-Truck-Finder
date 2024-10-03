@@ -316,6 +316,7 @@ let foodTrucks = [
 
 const isClient = typeof window !== 'undefined';
 
+
 export function getAllFoodTrucks() {
   if (isClient) {
     const savedTrucks = localStorage.getItem('foodTrucks');
@@ -330,7 +331,9 @@ export function getFoodTruckById(id) {
   const allTrucks = getAllFoodTrucks();
   const truck = allTrucks.find(truck => truck.id === id);
   if (truck) {
-    truck.reviews = getReviewsForTruck(id);
+    const reviews = getReviewsForTruck(id);
+    truck.reviews = reviews.length;
+    truck.rating = calculateAverageRating(reviews);
   }
   return truck;
 }
@@ -407,17 +410,23 @@ export function addReviewToTruck(truckId, review) {
   if (isClient) {
     const existingReviews = getReviewsForTruck(truckId);
     
-    const updatedReviews = [review, ...existingReviews];
+    const isDuplicate = existingReviews.some(existingReview => 
+      existingReview.text === review.text && existingReview.date === review.date
+    );
     
-    localStorage.setItem(`reviews_${truckId}`, JSON.stringify(updatedReviews));
-    
-    const allTrucks = getAllFoodTrucks();
-    const truckIndex = allTrucks.findIndex(truck => truck.id === truckId);
-    if (truckIndex !== -1) {
-      const truck = allTrucks[truckIndex];
-      truck.reviews = updatedReviews.length;
-      truck.rating = calculateAverageRating(updatedReviews);
-      saveFoodTrucks(allTrucks);
+    if (!isDuplicate) {
+      const updatedReviews = [review, ...existingReviews];
+
+      localStorage.setItem(`reviews_${truckId}`, JSON.stringify(updatedReviews));
+      
+      const allTrucks = getAllFoodTrucks();
+      const truckIndex = allTrucks.findIndex(truck => truck.id === truckId);
+      if (truckIndex !== -1) {
+        const truck = allTrucks[truckIndex];
+        truck.reviews = updatedReviews.length;
+        truck.rating = calculateAverageRating(updatedReviews);
+        saveFoodTrucks(allTrucks);
+      }
     }
   }
 }

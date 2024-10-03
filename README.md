@@ -224,8 +224,8 @@ Library Used: React Leaflet for map
 
 - [ ] Maybe add food truck and save somewhere (can add image)
     - [ ] Fix delete foodtruck (Still bugged)
-    - [ ] need to set if review is added change review on the main (stars show up and reviews update + 1) (Still bugged)
-        - [ ] Issue where when i add a review it replaces other review figure out first
+    - [x] need to set if review is added change review on the main (stars show up and reviews update + 1) (Still bugged)
+        - [x] Issue where when i add a review it replaces other review figure out first
         
 - [ ] Reformat a little make page look better (different fonts) / See what to add or remove
     - [ ] Still need to fix modal make look better

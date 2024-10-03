@@ -6,7 +6,7 @@ import { isFoodTruckOpen } from '../utils/isFoodTruckOpen';
 import { updateFoodTruck, addReviewToTruck } from '../lib/foodTruckData';
 
 const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTruck }) => {
-  console.log('onDeleteFoodTruck:', onDeleteFoodTruck);
+  console.log('FoodTruckModal props:', { truck, isOpen, onClose, onDeleteFoodTruck });
   const [reviews, setReviews] = useState([]);
   const [newRating, setNewRating] = useState(0);
   const [newReview, setNewReview] = useState('');

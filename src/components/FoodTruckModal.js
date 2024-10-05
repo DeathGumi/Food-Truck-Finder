@@ -4,6 +4,7 @@ import StarRating from './StarRating';
 import dummyReviews from '../lib/dummyReviews';
 import { isFoodTruckOpen } from '../utils/isFoodTruckOpen';
 import { updateFoodTruck, addReviewToTruck } from '../lib/foodTruckData';
+import { calculateAverageRating } from '../utils/ratingUtils'; // Make sure this import exists
 
 const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTruck }) => {
   console.log('FoodTruckModal props:', { truck, isOpen, onClose, onDeleteFoodTruck });
@@ -66,9 +67,11 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTru
     setReviews(updatedReviews);
     localStorage.setItem(`reviews_${localTruck.id}`, JSON.stringify(updatedReviews));
     
+    const newAverageRating = calculateAverageRating(updatedReviews);
     const updatedTruck = {
       ...localTruck,
-      reviews: localTruck.reviews + 1
+      reviews: localTruck.reviews + 1,
+      rating: newAverageRating
     };
     setLocalTruck(updatedTruck);
 
@@ -101,9 +104,11 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTru
       setReviews(updatedReviews);
       localStorage.setItem(`reviews_${localTruck.id}`, JSON.stringify(updatedReviews));
       
+      const newAverageRating = calculateAverageRating(updatedReviews);
       const updatedTruck = {
         ...localTruck,
-        reviews: Math.max(0, localTruck.reviews - 1)
+        reviews: Math.max(0, localTruck.reviews - 1),
+        rating: newAverageRating
       };
       setLocalTruck(updatedTruck);
 

@@ -254,4 +254,5 @@ Library Used: React Leaflet for map
 - [ ] Reformat a little make page look better (different fonts) / See what to add or remove
     - [ ] Still need to fix modal make look better
     - [ ] Maybe change the color of the font 
-    - [ ] Maybe add a foodtruck owner mode and a user mode (essentiall owners can add foodtrucks delete foodtrucks) (users are just use the website and normal features)
+    - [x] Maybe add a foodtruck owner mode and a user mode (essentiall owners can add foodtrucks delete foodtrucks) (users are just use the website and normal features)
+    - [ ] Could add to the modal as welle for delete review and food truck) -> we currently have it for add foodtruck but couldnt figure it out 

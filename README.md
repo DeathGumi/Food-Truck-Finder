@@ -243,3 +243,15 @@ Library Used: React Leaflet for map
     - [ ] Maybe change the color of the font 
     - [x] Star rating should be updated in real time 
     - [ ] Maybe add a foodtruck owner mode and a user mode (essentiall owners can add foodtrucks delete foodtrucks) (users are just use the website and normal features)
+
+
+# Oct 5
+
+- [ ] Maybe add food truck and save somewhere (can add image)
+    - [ ] Fix delete foodtruck (Still bugged)
+
+        
+- [ ] Reformat a little make page look better (different fonts) / See what to add or remove
+    - [ ] Still need to fix modal make look better
+    - [ ] Maybe change the color of the font 
+    - [ ] Maybe add a foodtruck owner mode and a user mode (essentiall owners can add foodtrucks delete foodtrucks) (users are just use the website and normal features)

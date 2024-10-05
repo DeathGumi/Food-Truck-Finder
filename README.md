@@ -241,4 +241,4 @@ Library Used: React Leaflet for map
 - [ ] Reformat a little make page look better (different fonts) / See what to add or remove
     - [ ] Still need to fix modal make look better
     - [ ] Maybe change the color of the font 
-    - [ ] Star rating should be updated in real time 
+    - [x] Star rating should be updated in real time 

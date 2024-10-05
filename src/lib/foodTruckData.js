@@ -426,9 +426,11 @@ export function addReviewToTruck(truckId, review) {
         truck.reviews = updatedReviews.length;
         truck.rating = calculateAverageRating(updatedReviews);
         saveFoodTrucks(allTrucks);
+        return truck; 
       }
     }
   }
+  return null; 
 }
 
 export function getAllReviews() {

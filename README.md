@@ -232,3 +232,13 @@ Library Used: React Leaflet for map
     - [ ] Maybe change the color of the font 
     - [ ] Star rating should be updated in real time 
 
+# Oct 4
+
+- [ ] Maybe add food truck and save somewhere (can add image)
+    - [ ] Fix delete foodtruck (Still bugged)
+
+        
+- [ ] Reformat a little make page look better (different fonts) / See what to add or remove
+    - [ ] Still need to fix modal make look better
+    - [ ] Maybe change the color of the font 
+    - [ ] Star rating should be updated in real time 

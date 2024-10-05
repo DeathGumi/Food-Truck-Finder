@@ -8,6 +8,7 @@ import { getAllFoodTrucks, searchFoodTrucks, addFoodTruck, deleteFoodTruck } fro
 import { useGeolocation } from '../hooks/useGeolocation';
 import AddFoodTruckForm from '../components/AddFoodTruckForm';
 import FoodTruckModal from '../components/FoodTruckModal';
+import ModeSelector from '../components/ModeSelector';
 
 const Map = dynamic(() => import('../components/Map'), { ssr: false });
 
@@ -21,6 +22,7 @@ export default function Home() {
   const [isLocating, setIsLocating] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
   const [selectedTruck, setSelectedTruck] = useState(null);
+  const [mode, setMode] = useState('user');
 
   useEffect(() => {
     const trucks = getAllFoodTrucks();
@@ -81,6 +83,13 @@ export default function Home() {
     setSelectedTruck(truck);
   };
 
+  const handleModeChange = (newMode) => {
+    setMode(newMode);
+    if (newMode === 'user') {
+      setShowAddForm(false);
+    }
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <header className="bg-white shadow-md p-4">
@@ -101,12 +110,15 @@ export default function Home() {
           >
             {isLocating ? "Locating..." : "Locate Me"}
           </button>
-          <button
-            onClick={() => setShowAddForm(!showAddForm)}
-            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded whitespace-nowrap"
-          >
-            {showAddForm ? "Hide Form" : "Add Food Truck"}
-          </button>
+          {mode === 'owner' && (
+            <button
+              onClick={() => setShowAddForm(!showAddForm)}
+              className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded whitespace-nowrap mr-2"
+            >
+              {showAddForm ? "Hide Form" : "Add Food Truck"}
+            </button>
+          )}
+          <ModeSelector currentMode={mode} onModeChange={handleModeChange} />
         </div>
       </header>
 
@@ -141,7 +153,8 @@ export default function Home() {
           truck={selectedTruck}
           isOpen={!!selectedTruck}
           onClose={() => setSelectedTruck(null)}
-          onDeleteFoodTruck={handleDeleteFoodTruck}
+          onDeleteFoodTruck={mode === 'owner' ? handleDeleteFoodTruck : null}
+          isOwnerMode={mode === 'owner'}
         />
       )}
     </div>

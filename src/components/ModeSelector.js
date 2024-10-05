@@ -11,13 +11,18 @@ const ModeSelector = ({ currentMode, onModeChange }) => {
     setIsOpen(false);
   };
 
+  const getCurrentModeIcon = () => {
+    return currentMode === 'owner' ? <Briefcase size={18} /> : <User size={18} />;
+  };
+
   return (
     <div className="relative">
       <button
         onClick={toggleDropdown}
-        className="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
+        className="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500 flex items-center"
       >
-        <MoreVertical size={24} />
+        {getCurrentModeIcon()}
+        <MoreVertical size={24} className="ml-1" />
       </button>
 
       {isOpen && (

@@ -4,10 +4,10 @@ import StarRating from './StarRating';
 import dummyReviews from '../lib/dummyReviews';
 import { isFoodTruckOpen } from '../utils/isFoodTruckOpen';
 import { updateFoodTruck, addReviewToTruck } from '../lib/foodTruckData';
-import { calculateAverageRating } from '../utils/ratingUtils'; // Make sure this import exists
+import { calculateAverageRating } from '../utils/ratingUtils';
 
-const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTruck }) => {
-  console.log('FoodTruckModal props:', { truck, isOpen, onClose, onDeleteFoodTruck });
+const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTruck, currentMode }) => {
+  console.log('FoodTruckModal props:', { truck, isOpen, onClose, onDeleteFoodTruck, currentMode });
   const [reviews, setReviews] = useState([]);
   const [newRating, setNewRating] = useState(0);
   const [newReview, setNewReview] = useState('');
@@ -131,7 +131,8 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTru
   const handleDeleteFoodTruck = () => {
     console.log('Delete button clicked');
     console.log('onDeleteFoodTruck function:', onDeleteFoodTruck);
-    if (window.confirm('Are you sure you want to delete this food truck?')) {
+    console.log('Current mode:', currentMode);
+    if (currentMode === 'owner' && window.confirm('Are you sure you want to delete this food truck?')) {
       console.log('Confirmation accepted, attempting to delete');
       if (typeof onDeleteFoodTruck === 'function') {
         onDeleteFoodTruck(localTruck.id);
@@ -238,14 +239,16 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTru
             ))}
           </div>
 
-          <div className="mt-6 flex justify-end">
-            <button 
-              onClick={handleDeleteFoodTruck}
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300"
-            >
-              Delete Food Truck
-            </button>
-          </div>
+          {currentMode === 'owner' && (
+            <div className="mt-6 flex justify-end">
+              <button 
+                onClick={handleDeleteFoodTruck}
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300"
+              >
+                Delete Food Truck
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

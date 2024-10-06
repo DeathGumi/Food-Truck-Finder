@@ -73,10 +73,13 @@ export default function Home() {
   };
 
   const handleDeleteFoodTruck = (truckId) => {
+    console.log('Attempting to delete truck with ID:', truckId);
     deleteFoodTruck(truckId);
     const updatedTrucks = foodTrucks.filter(truck => truck.id !== truckId);
+    console.log('Updated trucks after deletion:', updatedTrucks);
     setFoodTrucks(updatedTrucks);
     setSearchResults(updatedTrucks);
+    setSelectedTruck(null);  
   };
 
   const handleTruckClick = (truck) => {
@@ -84,6 +87,7 @@ export default function Home() {
   };
 
   const handleModeChange = (newMode) => {
+    console.log('Mode changed to:', newMode);
     setMode(newMode);
     if (newMode === 'user') {
       setShowAddForm(false);
@@ -153,8 +157,8 @@ export default function Home() {
           truck={selectedTruck}
           isOpen={!!selectedTruck}
           onClose={() => setSelectedTruck(null)}
-          onDeleteFoodTruck={mode === 'owner' ? handleDeleteFoodTruck : null}
-          isOwnerMode={mode === 'owner'}
+          onDeleteFoodTruck={handleDeleteFoodTruck}
+          currentMode={mode}
         />
       )}
     </div>

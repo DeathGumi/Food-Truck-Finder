@@ -4,10 +4,10 @@ import StarRating from './StarRating';
 import dummyReviews from '../lib/dummyReviews';
 import { isFoodTruckOpen } from '../utils/isFoodTruckOpen';
 import { updateFoodTruck, addReviewToTruck } from '../lib/foodTruckData';
-import { calculateAverageRating } from '../utils/ratingUtils';
+import { calculateAverageRating } from '../utils/ratingUtils'; // Make sure this import exists
 
-const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTruck, currentMode }) => {
-  console.log('FoodTruckModal props:', { truck, isOpen, onClose, onDeleteFoodTruck, currentMode });
+const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTruck }) => {
+  console.log('FoodTruckModal props:', { truck, isOpen, onClose, onDeleteFoodTruck });
   const [reviews, setReviews] = useState([]);
   const [newRating, setNewRating] = useState(0);
   const [newReview, setNewReview] = useState('');
@@ -131,26 +131,14 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTru
   const handleDeleteFoodTruck = () => {
     console.log('Delete button clicked');
     console.log('onDeleteFoodTruck function:', onDeleteFoodTruck);
-    console.log('Current mode:', currentMode);
-    if (currentMode === 'owner') {
-      if (window.confirm('Are you sure you want to delete this food truck?')) {
-        console.log('Confirmation accepted, attempting to delete');
-        if (typeof onDeleteFoodTruck === 'function') {
-          try {
-            onDeleteFoodTruck(localTruck.id);
-            onClose();
-          } catch (error) {
-            console.error('Error deleting food truck:', error);
-            alert('An error occurred while deleting the food truck. Please try again.');
-          }
-        } else {
-          console.error('onDeleteFoodTruck is not a function');
-          alert('Unable to delete the food truck at this time. Please try again later.');
-        }
+    if (window.confirm('Are you sure you want to delete this food truck?')) {
+      console.log('Confirmation accepted, attempting to delete');
+      if (typeof onDeleteFoodTruck === 'function') {
+        onDeleteFoodTruck(localTruck.id);
+        onClose();
+      } else {
+        console.error('onDeleteFoodTruck is not a function');
       }
-    } else {
-      console.error('Attempted to delete in non-owner mode');
-      alert('You must be in owner mode to delete a food truck.');
     }
   };
 
@@ -250,16 +238,14 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTru
             ))}
           </div>
 
-          {currentMode === 'owner' && (
-            <div className="mt-6 flex justify-end">
-              <button 
-                onClick={handleDeleteFoodTruck}
-                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300"
-              >
-                Delete Food Truck
-              </button>
-            </div>
-          )}
+          <div className="mt-6 flex justify-end">
+            <button 
+              onClick={handleDeleteFoodTruck}
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300"
+            >
+              Delete Food Truck
+            </button>
+          </div>
         </div>
       </div>
 

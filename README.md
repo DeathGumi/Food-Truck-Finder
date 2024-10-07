@@ -274,4 +274,4 @@ Library Used: React Leaflet for map
     - [ ] Still need to fix modal make look better
     - [ ] Maybe change the color of the font 
     - [ ] Could add to the modal as welle for delete review and food truck) -> we currently have it for add foodtruck but couldnt figure it out 
-- [ ] fix image bug
+- [x] fix image bug

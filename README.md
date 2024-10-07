@@ -275,3 +275,5 @@ Library Used: React Leaflet for map
     - [ ] Maybe change the color of the font 
     - [ ] Could add to the modal as welle for delete review and food truck) -> we currently have it for add foodtruck but couldnt figure it out 
 - [x] fix image bug
+- https://stackoverflow.com/questions/38892672/react-why-child-component-doesnt-update-when-prop-changes Link for debugging look at tomorrow
+- [ ] currentmode undefined need to fix (same issue as the delete)

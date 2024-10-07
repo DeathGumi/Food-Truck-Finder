@@ -4,11 +4,12 @@ import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import SearchBar from '../components/SearchBar';
 import ListView from '../components/ListView';
-import { getAllFoodTrucks, searchFoodTrucks, addFoodTruck, deleteFoodTruck } from '../lib/foodTruckData';
+import { getAllFoodTrucks, searchFoodTrucks, addFoodTruck } from '../lib/foodTruckData';
 import { useGeolocation } from '../hooks/useGeolocation';
 import AddFoodTruckForm from '../components/AddFoodTruckForm';
 import FoodTruckModal from '../components/FoodTruckModal';
 import ModeSelector from '../components/ModeSelector';
+import { onDeleteFoodTruck } from '../utils/onDeleteFoodTruck';
 
 const Map = dynamic(() => import('../components/Map'), { ssr: false });
 
@@ -73,13 +74,7 @@ export default function Home() {
   };
 
   const handleDeleteFoodTruck = (truckId) => {
-    console.log('Attempting to delete truck with ID:', truckId);
-    deleteFoodTruck(truckId);
-    const updatedTrucks = foodTrucks.filter(truck => truck.id !== truckId);
-    console.log('Updated trucks after deletion:', updatedTrucks);
-    setFoodTrucks(updatedTrucks);
-    setSearchResults(updatedTrucks);
-    setSelectedTruck(null);  
+    onDeleteFoodTruck(truckId, setFoodTrucks, setSearchResults, setSelectedTruck);
   };
 
   const handleTruckClick = (truck) => {

@@ -158,8 +158,8 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTru
             <Image 
               src={localTruck.imageurl || '/default-food-truck-image.jpg'}
               alt={localTruck.name} 
-              layout="fill"
-              objectFit="cover"
+              fill={true}
+              style={{ objectFit: 'cover' }}
               className="rounded-t-lg"
             />
             <div className="absolute inset-0 bg-black bg-opacity-50 rounded-t-lg"></div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import StarRating from './StarRating';
 import dummyReviews from '../lib/dummyReviews';
@@ -36,7 +36,7 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTru
     }
   }, [truck]);
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = useCallback((e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -45,9 +45,9 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTru
       };
       reader.readAsDataURL(file);
     }
-  };
+  }, []);
 
-  const handleSubmitRating = () => {
+  const handleSubmitRating = useCallback(() => {
     if (newRating === 0 || newReview.trim() === '') {
       alert('Please provide both a rating and a review.');
       return;
@@ -86,19 +86,19 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTru
     setNewReview('');
     setNewImage(null);
     setShowReviewForm(false);
-  };
+  }, [newRating, newReview, newImage, reviews, localTruck, onUpdateTruck]);
 
-  const handleOverlayClick = (e) => {
+  const handleOverlayClick = useCallback((e) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
-  };
+  }, [onClose]);
 
-  const handleReviewClick = (review) => {
+  const handleReviewClick = useCallback((review) => {
     setSelectedReview(review);
-  };
+  }, []);
 
-  const handleDeleteReview = () => {
+  const handleDeleteReview = useCallback(() => {
     if (selectedReview) {
       const updatedReviews = reviews.filter(review => review !== selectedReview);
       setReviews(updatedReviews);
@@ -120,15 +120,15 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTru
 
       setSelectedReview(null);
     }
-  };
+  }, [selectedReview, reviews, localTruck, onUpdateTruck]);
 
-  const handleCloseReviewDetail = (e) => {
+  const handleCloseReviewDetail = useCallback((e) => {
     if (e.target === e.currentTarget) {
       setSelectedReview(null);
     }
-  };
+  }, []);
 
-  const handleDeleteFoodTruck = () => {
+  const handleDeleteFoodTruck = useCallback(() => {
     console.log('Delete button clicked');
     console.log('onDeleteFoodTruck function:', onDeleteFoodTruck);
     if (window.confirm('Are you sure you want to delete this food truck?')) {
@@ -140,7 +140,7 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTru
         console.error('onDeleteFoodTruck is not a function');
       }
     }
-  };
+  }, [onDeleteFoodTruck, localTruck.id, onClose]);
 
   const isTruckOpen = isFoodTruckOpen(localTruck.hours);
 
@@ -238,7 +238,6 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTru
             ))}
           </div>
 
-          {currentMode === 'owner' && (
             <div className="mt-6 flex justify-end">
               <button 
                 onClick={handleDeleteFoodTruck}
@@ -247,7 +246,6 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTru
                 Delete Food Truck
               </button>
             </div>
-          )}
         </div>
       </div>
 
@@ -341,4 +339,4 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTru
   );
 };
 
-export default FoodTruckModal;
+export default React.memo(FoodTruckModal);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import StarRating from './StarRating';
 import dummyReviews from '../lib/dummyReviews';
@@ -6,8 +6,8 @@ import { isFoodTruckOpen } from '../utils/isFoodTruckOpen';
 import { updateFoodTruck, addReviewToTruck } from '../lib/foodTruckData';
 import { calculateAverageRating } from '../utils/ratingUtils';
 
-const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTruck, currentMode }) => {
-  console.log('FoodTruckModal props:', { truck, isOpen, onClose, onDeleteFoodTruck, currentMode });
+const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTruck, mode }) => {
+  console.log('FoodTruckModal props:', { truck, isOpen, onClose, onDeleteFoodTruck, mode });
   const [reviews, setReviews] = useState([]);
   const [newRating, setNewRating] = useState(0);
   const [newReview, setNewReview] = useState('');
@@ -16,6 +16,8 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTru
   const [selectedReview, setSelectedReview] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
   const [localTruck, setLocalTruck] = useState(truck);
+
+  const debugRef = useRef({});
 
   useEffect(() => {
     if (truck) {
@@ -35,6 +37,11 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTru
       setLocalTruck(truck);
     }
   }, [truck]);
+
+  useEffect(() => {
+    debugRef.current.onDeleteFoodTruck = onDeleteFoodTruck;
+    console.log('onDeleteFoodTruck updated:', onDeleteFoodTruck);
+  }, [onDeleteFoodTruck]);
 
   const handleImageUpload = useCallback((e) => {
     const file = e.target.files[0];
@@ -131,16 +138,28 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTru
   const handleDeleteFoodTruck = useCallback(() => {
     console.log('Delete button clicked');
     console.log('onDeleteFoodTruck function:', onDeleteFoodTruck);
+    console.log('debugRef.current.onDeleteFoodTruck:', debugRef.current.onDeleteFoodTruck);
+    console.log('localTruck:', localTruck);
+    
     if (window.confirm('Are you sure you want to delete this food truck?')) {
       console.log('Confirmation accepted, attempting to delete');
       if (typeof onDeleteFoodTruck === 'function') {
-        onDeleteFoodTruck(localTruck.id);
-        onClose();
+        try {
+          onDeleteFoodTruck(localTruck.id);
+          console.log('onDeleteFoodTruck called successfully');
+          onClose();
+        } catch (error) {
+          console.error('Error in onDeleteFoodTruck:', error);
+        }
       } else {
         console.error('onDeleteFoodTruck is not a function');
+        console.log('onDeleteFoodTruck type:', typeof onDeleteFoodTruck);
+        console.log('onDeleteFoodTruck value:', onDeleteFoodTruck);
       }
+    } else {
+      console.log('Deletion cancelled by user');
     }
-  }, [onDeleteFoodTruck, localTruck.id, onClose]);
+  }, [onDeleteFoodTruck, localTruck, onClose]);
 
   const isTruckOpen = isFoodTruckOpen(localTruck.hours);
 

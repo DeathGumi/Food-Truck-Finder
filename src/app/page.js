@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import SearchBar from '../components/SearchBar';
 import ListView from '../components/ListView';
@@ -25,10 +25,13 @@ export default function Home() {
   const [selectedTruck, setSelectedTruck] = useState(null);
   const [mode, setMode] = useState('user');
 
+  const debugRef = useRef({});
+
   useEffect(() => {
     const trucks = getAllFoodTrucks();
     setFoodTrucks(trucks);
     setSearchResults(trucks);
+    console.log('Initial trucks loaded:', trucks);
   }, []);
 
   useEffect(() => {
@@ -36,67 +39,97 @@ export default function Home() {
       setMapCenter([location.latitude, location.longitude]);
       setMapZoom(15);
       setUserLocation(location);
+      console.log('User location updated:', location);
     }
   }, [location]);
 
-  const handleSearch = (term) => {
+  const handleSearch = useCallback((term) => {
+    console.log('Search term:', term);
     if (term.trim() === '') {
       setSearchResults(foodTrucks);
     } else {
       const results = searchFoodTrucks(term);
       setSearchResults(results);
     }
-  };
+    console.log('Search results:', results);
+  }, [foodTrucks]);
 
-  const handleLocateMe = () => {
+  const handleLocateMe = useCallback(() => {
     setIsLocating(true);
     getCurrentLocation((success) => {
       setIsLocating(false);
       if (!success) {
+        console.error("Unable to retrieve user location");
         alert("Unable to retrieve your location. Please try again.");
       }
     });
-  };
+  }, [getCurrentLocation]);
 
-  const handleLocationChange = (newLocation) => {
+  const handleLocationChange = useCallback((newLocation) => {
+    console.log('Location changed:', newLocation);
     setUserLocation({
       latitude: newLocation.lat,
       longitude: newLocation.lng
     });
     setMapCenter([newLocation.lat, newLocation.lng]);
-  };
+  }, []);
 
-  const handleAddFoodTruck = (newTruck) => {
+  const handleAddFoodTruck = useCallback((newTruck) => {
+    console.log('Adding new food truck:', newTruck);
     const addedTruck = addFoodTruck(newTruck);
-    setFoodTrucks(prevTrucks => [...prevTrucks, addedTruck]);
-    setSearchResults(prevResults => [...prevResults, addedTruck]);
+    setFoodTrucks(prevTrucks => {
+      const updatedTrucks = [...prevTrucks, addedTruck];
+      console.log('Updated food trucks:', updatedTrucks);
+      return updatedTrucks;
+    });
+    setSearchResults(prevResults => {
+      const updatedResults = [...prevResults, addedTruck];
+      console.log('Updated search results:', updatedResults);
+      return updatedResults;
+    });
     setShowAddForm(false);
-  };
+  }, []);
 
   const handleDeleteFoodTruck = useCallback((truckId) => {
+    console.log('handleDeleteFoodTruck called with:', truckId);
+    if (typeof onDeleteFoodTruck !== 'function') {
+      console.error('onDeleteFoodTruck is not a function:', onDeleteFoodTruck);
+      return;
+    }
     onDeleteFoodTruck(truckId, setFoodTrucks, setSearchResults, setSelectedTruck);
   }, []);
 
-  const handleTruckClick = (truck) => {
+  const handleTruckClick = useCallback((truck) => {
+    console.log('Truck clicked:', truck);
     setSelectedTruck(truck);
-  };
+  }, []);
 
-  const handleModeChange = (newMode) => {
+  const handleModeChange = useCallback((newMode) => {
     console.log('Mode changed to:', newMode);
     setMode(newMode);
     if (newMode === 'user') {
       setShowAddForm(false);
     }
-  };
+  }, []);
 
   const handleUpdateTruck = useCallback((updatedTruck) => {
-    setFoodTrucks(prevTrucks => 
-      prevTrucks.map(truck => truck.id === updatedTruck.id ? updatedTruck : truck)
-    );
-    setSearchResults(prevResults => 
-      prevResults.map(truck => truck.id === updatedTruck.id ? updatedTruck : truck)
-    );
+    console.log('Updating truck:', updatedTruck);
+    setFoodTrucks(prevTrucks => {
+      const updatedTrucks = prevTrucks.map(truck => truck.id === updatedTruck.id ? updatedTruck : truck);
+      console.log('Updated food trucks:', updatedTrucks);
+      return updatedTrucks;
+    });
+    setSearchResults(prevResults => {
+      const updatedResults = prevResults.map(truck => truck.id === updatedTruck.id ? updatedTruck : truck);
+      console.log('Updated search results:', updatedResults);
+      return updatedResults;
+    });
   }, []);
+
+  useEffect(() => {
+    debugRef.current.handleDeleteFoodTruck = handleDeleteFoodTruck;
+    console.log('handleDeleteFoodTruck updated:', handleDeleteFoodTruck);
+  }, [handleDeleteFoodTruck]);
 
   return (
     <div className="flex flex-col h-screen">
@@ -164,7 +197,7 @@ export default function Home() {
           onClose={() => setSelectedTruck(null)}
           onDeleteFoodTruck={handleDeleteFoodTruck}
           onUpdateTruck={handleUpdateTruck}
-          currentMode={mode}
+          mode={mode}
         />
       )}
     </div>

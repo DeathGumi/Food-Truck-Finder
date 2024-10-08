@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import SearchBar from '../components/SearchBar';
 import ListView from '../components/ListView';
@@ -73,9 +73,9 @@ export default function Home() {
     setShowAddForm(false);
   };
 
-  const handleDeleteFoodTruck = (truckId) => {
+  const handleDeleteFoodTruck = useCallback((truckId) => {
     onDeleteFoodTruck(truckId, setFoodTrucks, setSearchResults, setSelectedTruck);
-  };
+  }, []);
 
   const handleTruckClick = (truck) => {
     setSelectedTruck(truck);
@@ -88,6 +88,15 @@ export default function Home() {
       setShowAddForm(false);
     }
   };
+
+  const handleUpdateTruck = useCallback((updatedTruck) => {
+    setFoodTrucks(prevTrucks => 
+      prevTrucks.map(truck => truck.id === updatedTruck.id ? updatedTruck : truck)
+    );
+    setSearchResults(prevResults => 
+      prevResults.map(truck => truck.id === updatedTruck.id ? updatedTruck : truck)
+    );
+  }, []);
 
   return (
     <div className="flex flex-col h-screen">
@@ -149,10 +158,12 @@ export default function Home() {
 
       {selectedTruck && (
         <FoodTruckModal
+          key={selectedTruck.id}
           truck={selectedTruck}
           isOpen={!!selectedTruck}
           onClose={() => setSelectedTruck(null)}
           onDeleteFoodTruck={handleDeleteFoodTruck}
+          onUpdateTruck={handleUpdateTruck}
           currentMode={mode}
         />
       )}

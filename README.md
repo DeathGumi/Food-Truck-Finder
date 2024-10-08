@@ -288,3 +288,4 @@ Library Used: React Leaflet for map
     - [ ] Could add to the modal as welle for delete review and food truck) -> we currently have it for add foodtruck but couldnt figure it out 
 - https://stackoverflow.com/questions/38892672/react-why-child-component-doesnt-update-when-prop-changes Link for debugging look at tomorrow
 - [ ] currentmode undefined need to fix (same issue as the delete)
+- [ ] Scrum let teamates debug or figure out their own implementation

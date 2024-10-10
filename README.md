@@ -289,3 +289,10 @@ Library Used: React Leaflet for map
 - https://stackoverflow.com/questions/38892672/react-why-child-component-doesnt-update-when-prop-changes Link for debugging look at tomorrow
 - [ ] currentmode undefined need to fix (same issue as the delete)
 - [ ] Scrum let teamates debug or figure out their own implementation
+
+
+
+
+Things to do for members
+add or fix delete button
+for star rating can make it so star rating can update without setting a comment 

@@ -15,9 +15,12 @@ const AddFoodTruckForm = ({ onAddFoodTruck }) => {
     closeMinute: '00',
     closePeriod: 'PM',
     location: { lat: '', lng: '' },
+    addressDisplay: '',
     imageurl: '',
     menu: [{ item: '', price: '' }]
   });
+
+  const [address, setAddress] = useState('');
 
   const cuisineOptions = [
     "American",
@@ -35,6 +38,28 @@ const AddFoodTruckForm = ({ onAddFoodTruck }) => {
     "Vegan",
     "Vietnamese"
   ];
+
+  const handleAddressSearch = async (address) => {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`
+      );
+      const data = await response.json();
+      
+      if (data && data[0]) {
+        setFormData(prevState => ({
+          ...prevState,
+          location: {
+            lat: data[0].lat,
+            lng: data[0].lon
+          },
+          addressDisplay: data[0].display_name
+        }));
+      }
+    } catch (error) {
+      console.error('Error searching address:', error);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -62,6 +87,13 @@ const AddFoodTruckForm = ({ onAddFoodTruck }) => {
     setFormData(prevState => ({
       ...prevState,
       menu: updatedMenu
+    }));
+  };
+
+  const removeMenuItem = (indexToRemove) => {
+    setFormData(prevState => ({
+      ...prevState,
+      menu: prevState.menu.filter((_, index) => index !== indexToRemove)
     }));
   };
 
@@ -124,9 +156,11 @@ const AddFoodTruckForm = ({ onAddFoodTruck }) => {
       closeMinute: '00',
       closePeriod: 'PM',
       location: { lat: '', lng: '' },
+      addressDisplay: '',
       imageurl: '',
       menu: [{ item: '', price: '' }]
     });
+    setAddress('');
   };
 
   return (
@@ -279,28 +313,50 @@ const AddFoodTruckForm = ({ onAddFoodTruck }) => {
           <h3 className="text-lg font-semibold mb-4 text-gray-700">Location</h3>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Latitude</label>
-              <input
-                type="text"
-                name="lat"
-                value={formData.location.lat}
-                onChange={handleLocationChange}
-                placeholder="e.g., 33.7701"
-                required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              />
+              <label className="block text-sm font-medium text-gray-700">Search Address</label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  placeholder="Enter address or location name"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleAddressSearch(address)}
+                  className="mt-1 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 transition-colors"
+                >
+                  Search
+                </button>
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Longitude</label>
-              <input
-                type="text"
-                name="lng"
-                value={formData.location.lng}
-                onChange={handleLocationChange}
-                placeholder="e.g., -118.1937"
-                required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              />
+
+            {formData.addressDisplay && (
+              <p className="text-sm text-gray-600">
+                Found: {formData.addressDisplay}
+              </p>
+            )}
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Latitude</label>
+                <input
+                  type="text"
+                  value={formData.location.lat}
+                  readOnly
+                  className="mt-1 block w-full rounded-md border-gray-300 bg-gray-50"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Longitude</label>
+                <input
+                  type="text"
+                  value={formData.location.lng}
+                  readOnly
+                  className="mt-1 block w-full rounded-md border-gray-300 bg-gray-50"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -326,7 +382,7 @@ const AddFoodTruckForm = ({ onAddFoodTruck }) => {
           <h3 className="text-lg font-semibold mb-4 text-gray-700">Menu Items</h3>
           <div className="space-y-4">
             {formData.menu.map((item, index) => (
-              <div key={index} className="flex space-x-4">
+              <div key={index} className="flex space-x-4 items-center">
                 <div className="flex-grow">
                   <input
                     type="text"
@@ -344,17 +400,29 @@ const AddFoodTruckForm = ({ onAddFoodTruck }) => {
                     value={item.price}
                     onChange={(e) => handleMenuChange(index, e)}
                     placeholder="Price"
+                    step="0.01"
+                    min="0"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   />
                 </div>
+                {formData.menu.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeMenuItem(index)}
+                    className="text-red-500 hover:text-red-700 font-bold text-xl px-2"
+                    title="Remove item"
+                  >
+                    ×
+                  </button>
+                )}
               </div>
             ))}
             <button
               type="button"
               onClick={addMenuItem}
-              className="mt-2 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 transition-colors"
+              className="mt-2 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 transition-colors flex items-center"
             >
-              Add Menu Item
+              <span className="mr-2">+</span> Add Menu Item
             </button>
           </div>
         </div>

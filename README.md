@@ -296,3 +296,9 @@ Library Used: React Leaflet for map
 Things to do for members
 add or fix delete button
 for star rating can make it so star rating can update without setting a comment 
+
+# Nov 2nd
+
+- [x] Fixed some issues
+    - OpenStreetMap's Nominatim service - > autocalculate long lat 
+    - removed issues where when professor would test that he would look for edge cases 

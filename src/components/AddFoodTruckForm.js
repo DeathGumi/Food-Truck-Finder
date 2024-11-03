@@ -7,7 +7,13 @@ const AddFoodTruckForm = ({ onAddFoodTruck }) => {
     cuisine: '',
     description: '',
     priceRange: '$',
-    hours: '',
+    hours: '11:00 AM - 9:00 PM',
+    openHour: '11',
+    openMinute: '00',
+    openPeriod: 'AM',
+    closeHour: '9',
+    closeMinute: '00',
+    closePeriod: 'PM',
     location: { lat: '', lng: '' },
     imageurl: '',
     menu: [{ item: '', price: '' }]
@@ -40,6 +46,22 @@ const AddFoodTruckForm = ({ onAddFoodTruck }) => {
       ...prevState,
       menu: updatedMenu
     }));
+  };
+
+  const handleTimeChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => {
+      const newState = {
+        ...prevState,
+        [name]: value
+      };
+      // Update the complete hours string
+      const hours = `${newState.openHour}:${newState.openMinute} ${newState.openPeriod} - ${newState.closeHour}:${newState.closeMinute} ${newState.closePeriod}`;
+      return {
+        ...newState,
+        hours
+      };
+    });
   };
 
   const addMenuItem = () => {
@@ -78,7 +100,13 @@ const AddFoodTruckForm = ({ onAddFoodTruck }) => {
       cuisine: '',
       description: '',
       priceRange: '$',
-      hours: '',
+      hours: '11:00 AM - 9:00 PM',
+      openHour: '11',
+      openMinute: '00',
+      openPeriod: 'AM',
+      closeHour: '9',
+      closeMinute: '00',
+      closePeriod: 'PM',
       location: { lat: '', lng: '' },
       imageurl: '',
       menu: [{ item: '', price: '' }]
@@ -109,7 +137,79 @@ const AddFoodTruckForm = ({ onAddFoodTruck }) => {
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700">Hours</label>
-        <input type="text" name="hours" value={formData.hours} onChange={handleChange} required className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs text-gray-500">Opening Time</label>
+            <div className="flex space-x-2 items-center">
+              <select 
+                name="openHour"
+                value={formData.openHour}
+                onChange={handleTimeChange}
+                className="mt-1 block w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              >
+                {[12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(hour => (
+                  <option key={hour} value={hour}>{hour}</option>
+                ))}
+              </select>
+              <span>:</span>
+              <select 
+                name="openMinute"
+                value={formData.openMinute}
+                onChange={handleTimeChange}
+                className="mt-1 block w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              >
+                {['00', '15', '30', '45'].map(minute => (
+                  <option key={minute} value={minute}>{minute}</option>
+                ))}
+              </select>
+              <select 
+                name="openPeriod"
+                value={formData.openPeriod}
+                onChange={handleTimeChange}
+                className="mt-1 block w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              >
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label className="block text-xs text-gray-500">Closing Time</label>
+            <div className="flex space-x-2 items-center">
+              <select 
+                name="closeHour"
+                value={formData.closeHour}
+                onChange={handleTimeChange}
+                className="mt-1 block w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              >
+                {[12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(hour => (
+                  <option key={hour} value={hour}>{hour}</option>
+                ))}
+              </select>
+              <span>:</span>
+              <select 
+                name="closeMinute"
+                value={formData.closeMinute}
+                onChange={handleTimeChange}
+                className="mt-1 block w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              >
+                {['00', '15', '30', '45'].map(minute => (
+                  <option key={minute} value={minute}>{minute}</option>
+                ))}
+              </select>
+              <select 
+                name="closePeriod"
+                value={formData.closePeriod}
+                onChange={handleTimeChange}
+                className="mt-1 block w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              >
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <p className="text-sm text-gray-500 mt-2">Current hours: {formData.hours}</p>
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700">Location</label>

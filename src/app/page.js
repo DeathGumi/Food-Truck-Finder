@@ -45,7 +45,7 @@ export default function Home() {
 
   const handleSearch = useCallback((term) => {
     console.log('Search term:', term);
-    let results;  // Define results in the outer scope
+    let results;  
     
     if (term.trim() === '') {
       results = foodTrucks;
@@ -54,7 +54,7 @@ export default function Home() {
     }
     
     setSearchResults(results);
-    console.log('Search results:', results);  // Now this will work
+    console.log('Search results:', results); 
   }, [foodTrucks]);
 
   const handleLocateMe = useCallback(() => {

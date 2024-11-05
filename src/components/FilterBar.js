@@ -48,13 +48,19 @@ const FilterBar = ({ onFilterChange }) => {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">Cuisine</label>
-              <input
-                type="text"
+              <select
                 value={cuisineFilter}
                 onChange={(e) => setCuisineFilter(e.target.value)}
-                placeholder="Enter cuisine"
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              />
+              >
+                <option value="">All Cuisines</option>
+                <option value="Vietnamese">Vietnamese</option>
+                <option value="Japanese">Japanese</option>
+                <option value="Indian">Indian</option>
+                <option value="Mexican">Mexican</option>
+                <option value="Hungarian">Hungarian</option>
+                <option value="American">American</option>
+              </select>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">Minimum Rating</label>

@@ -5,8 +5,11 @@ import dummyReviews from '../lib/dummyReviews';
 import { isFoodTruckOpen } from '../utils/isFoodTruckOpen';
 import { updateFoodTruck, addReviewToTruck } from '../lib/foodTruckData';
 import { calculateAverageRating } from '../utils/ratingUtils';
+import { onDeleteFoodTruck } from '../utils/OnDeleteFoodTruck';
 
-const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTruck, mode }) => {
+// console.log('onDeleteFoodTruck:', typeof onDeleteFoodTruck);
+const FoodTruckModal = ({ truck, isOpen, onClose, onUpdateTruck, mode }) => {
+
   console.log('FoodTruckModal props:', { truck, isOpen, onClose, onDeleteFoodTruck, mode });
   const [reviews, setReviews] = useState([]);
   const [newRating, setNewRating] = useState(0);
@@ -135,31 +138,28 @@ const FoodTruckModal = ({ truck, isOpen, onClose, onDeleteFoodTruck, onUpdateTru
     }
   }, []);
 
-  const handleDeleteFoodTruck = useCallback(() => {
+  const handleDeleteFoodTruck = useCallback((e) => {
+    e.stopPropagation(); //prevents event from bubbling up
     console.log('Delete button clicked');
     console.log('onDeleteFoodTruck function:', onDeleteFoodTruck);
     console.log('debugRef.current.onDeleteFoodTruck:', debugRef.current.onDeleteFoodTruck);
     console.log('localTruck:', localTruck);
-    
-    if (window.confirm('Are you sure you want to delete this food truck?')) {
+    if (onDeleteFoodTruck(localTruck.id) == true) {
       console.log('Confirmation accepted, attempting to delete');
-      if (typeof onDeleteFoodTruck === 'function') {
-        try {
-          onDeleteFoodTruck(localTruck.id);
-          console.log('onDeleteFoodTruck called successfully');
-          onClose();
-        } catch (error) {
-          console.error('Error in onDeleteFoodTruck:', error);
-        }
-      } else {
-        console.error('onDeleteFoodTruck is not a function');
-        console.log('onDeleteFoodTruck type:', typeof onDeleteFoodTruck);
-        console.log('onDeleteFoodTruck value:', onDeleteFoodTruck);
+      try {
+        console.log('onDeleteFoodTruck called successfully');
+        onClose();
+        console.log('Food truck deleted successfully and we are not stopping function');
+      } catch (error) {
+        console.error('Error in onDeleteFoodTruck:', error);
       }
     } else {
       console.log('Deletion cancelled by user');
+      console.error('onDeleteFoodTruck is not a function');
+      console.log('onDeleteFoodTruck type:', typeof onDeleteFoodTruck);
+      console.log('onDeleteFoodTruck value:', onDeleteFoodTruck);
     }
-  }, [onDeleteFoodTruck, localTruck, onClose]);
+  }, [localTruck, onClose]);
 
   const isTruckOpen = isFoodTruckOpen(localTruck.hours);
 

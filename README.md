@@ -310,3 +310,4 @@ for star rating can make it so star rating can update without setting a comment
 - [ ] Cant delete reivews unless you are onwder
 - [ ] Cant delete foodtruck without being owner like doesnt show in ownerview
 - [ ] Make sure search bar can filter on both map and on listview
+- [x] added closed to filter (made name better)

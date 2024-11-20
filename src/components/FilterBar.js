@@ -75,14 +75,15 @@ const FilterBar = ({ onFilterChange }) => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Open Now</label>
+              <label className="block text-sm font-medium text-gray-700">Operating Status</label>
               <select
                 value={timeFilter}
                 onChange={(e) => setTimeFilter(e.target.value)}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               >
                 <option value="">All</option>
-                <option value="open">Open Now</option>
+                <option value="open">Open</option>
+                <option value="closed">Closed</option>
               </select>
             </div>
           </div>

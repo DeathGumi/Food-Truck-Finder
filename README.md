@@ -304,3 +304,8 @@ for star rating can make it so star rating can update without setting a comment
 - [x] Fixed some issues
     - OpenStreetMap's Nominatim service - > autocalculate long lat 
     - removed issues where when professor would test that he would look for edge cases 
+
+# Nov 19 
+- [ ] Maybe add limit to how much text you can input in description
+- [ ] Cant delete reivews unless you are onwder
+- [ ] Cant delete foodtruck without being owner like doesnt show in ownerview 

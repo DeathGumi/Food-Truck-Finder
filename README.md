@@ -287,7 +287,7 @@ Library Used: React Leaflet for map
 - [ ] Reformat a little make page look better (different fonts) / See what to add or remove
     - [ ] Still need to fix modal make look better
     - [ ] Maybe change the color of the font 
-    - [ ] Could add to the modal as welle for delete review and food truck) -> we currently have it for add foodtruck but couldnt figure it out 
+    - [x] Could add to the modal as welle for delete review and food truck) -> we currently have it for add foodtruck but couldnt figure it out 
 - https://stackoverflow.com/questions/38892672/react-why-child-component-doesnt-update-when-prop-changes Link for debugging look at tomorrow
 - [ ] currentmode undefined need to fix (same issue as the delete)
 - [ ] Scrum let teamates debug or figure out their own implementation
@@ -306,6 +306,7 @@ for star rating can make it so star rating can update without setting a comment
     - removed issues where when professor would test that he would look for edge cases 
 
 # Nov 19 
-- [ ] Maybe add limit to how much text you can input in description
+- [x] Maybe add limit to how much text you can input in description
 - [ ] Cant delete reivews unless you are onwder
-- [ ] Cant delete foodtruck without being owner like doesnt show in ownerview 
+- [ ] Cant delete foodtruck without being owner like doesnt show in ownerview
+- [ ] Make sure search bar can filter on both map and on listview

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 const AddFoodTruckForm = ({ onAddFoodTruck }) => {
+  const WORD_LIMIT = 100; // Set maximum word count
+
   const [formData, setFormData] = useState({
     name: '',
     cuisine: '',
@@ -21,6 +23,7 @@ const AddFoodTruckForm = ({ onAddFoodTruck }) => {
   });
 
   const [address, setAddress] = useState('');
+  const [wordCount, setWordCount] = useState(0);
 
   const cuisineOptions = [
     "American",
@@ -63,10 +66,22 @@ const AddFoodTruckForm = ({ onAddFoodTruck }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
+    
+    if (name === 'description') {
+      const words = value.trim().split(/\s+/).filter(word => word.length > 0);
+      if (words.length <= WORD_LIMIT) {
+        setWordCount(words.length);
+        setFormData(prevState => ({
+          ...prevState,
+          [name]: value
+        }));
+      }
+    } else {
+      setFormData(prevState => ({
+        ...prevState,
+        [name]: value
+      }));
+    }
   };
 
   const handleLocationChange = (e) => {
@@ -161,6 +176,7 @@ const AddFoodTruckForm = ({ onAddFoodTruck }) => {
       menu: [{ item: '', price: '' }]
     });
     setAddress('');
+    setWordCount(0);
   };
 
   return (
@@ -204,14 +220,19 @@ const AddFoodTruckForm = ({ onAddFoodTruck }) => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700">Description</label>
-              <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                required
-                rows="3"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              />
+              <div className="relative">
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  required
+                  rows="3"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                />
+                <div className={`text-sm mt-1 flex justify-end ${wordCount > WORD_LIMIT * 0.9 ? 'text-red-500' : 'text-gray-500'}`}>
+                  {wordCount} / {WORD_LIMIT} words
+                </div>
+              </div>
             </div>
 
             <div>

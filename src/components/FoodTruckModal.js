@@ -5,7 +5,7 @@ import dummyReviews from '../lib/dummyReviews';
 import { isFoodTruckOpen } from '../utils/isFoodTruckOpen';
 import { updateFoodTruck, addReviewToTruck } from '../lib/foodTruckData';
 import { calculateAverageRating } from '../utils/ratingUtils';
-import { onDeleteFoodTruck } from '../utils/OnDeleteFoodTruck';
+import { onDeleteFoodTruck } from '../utils/onDeleteFoodTruck';
 
 // console.log('onDeleteFoodTruck:', typeof onDeleteFoodTruck);
 const FoodTruckModal = ({ truck, isOpen, onClose, onUpdateTruck, mode }) => {

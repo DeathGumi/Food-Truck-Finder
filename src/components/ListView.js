@@ -14,8 +14,8 @@ function getCuisineClass(cuisine) {
   return `cuisine-${cuisine.toLowerCase().replace(/[\s&]+/g, '-')}`;
 }
 
-function ListViewContent({ currentLocation, onUpdateRating }) {
-  const [foodTrucks, setFoodTrucks] = useState([]);
+function ListViewContent({ foodTrucks: propFoodTrucks, currentLocation, onUpdateRating }) {
+  const [localFoodTrucks, setLocalFoodTrucks] = useState([]);
   const [selectedTruck, setSelectedTruck] = useState(null);
   const [filters, setFilters] = useState({
     price: '',
@@ -26,27 +26,28 @@ function ListViewContent({ currentLocation, onUpdateRating }) {
   const { busynessLevels, initializeBusynessLevels } = useBusyness();
 
   const refreshFoodTrucks = useCallback(() => {
-    const trucks = getAllFoodTrucks();
-    const trucksWithUpdatedRatings = trucks.map(truck => {
-      const reviews = initializeReviewsIfNeeded(truck, dummyReviews);
-      const averageRating = calculateAverageRating(reviews);
-      return { ...truck, rating: averageRating, reviews: reviews.length };
-    });
-    setFoodTrucks(trucksWithUpdatedRatings);
-  }, []);
+    if (propFoodTrucks) {
+      const trucksWithUpdatedRatings = propFoodTrucks.map(truck => {
+        const reviews = initializeReviewsIfNeeded(truck, dummyReviews);
+        const averageRating = calculateAverageRating(reviews);
+        return { ...truck, rating: averageRating, reviews: reviews.length };
+      });
+      setLocalFoodTrucks(trucksWithUpdatedRatings);
+    }
+  }, [propFoodTrucks]);
 
   useEffect(() => {
     refreshFoodTrucks();
   }, [refreshFoodTrucks]);
 
   useEffect(() => {
-    if (foodTrucks.length > 0) {
-      initializeBusynessLevels(foodTrucks);
+    if (localFoodTrucks.length > 0) {
+      initializeBusynessLevels(localFoodTrucks);
     }
-  }, [foodTrucks, initializeBusynessLevels]);
+  }, [localFoodTrucks, initializeBusynessLevels]);
 
   const handleAddReview = useCallback((truckId, review) => {
-    const truck = foodTrucks.find(t => t.id === truckId);
+    const truck = localFoodTrucks.find(t => t.id === truckId);
     if (truck) {
       const updatedTruck = updateTruckWithNewReview(truck, review);
       saveReviewToLocalStorage(truckId, updatedTruck.reviewsData);
@@ -56,17 +57,17 @@ function ListViewContent({ currentLocation, onUpdateRating }) {
         onUpdateRating();
       }
     }
-  }, [foodTrucks, refreshFoodTrucks, onUpdateRating]);
+  }, [localFoodTrucks, refreshFoodTrucks, onUpdateRating]);
 
   const filteredFoodTrucks = useMemo(() => {
-    return foodTrucks.filter(truck => {
+    return localFoodTrucks.filter(truck => {
       if (filters.price && truck.priceRange !== filters.price) return false;
       if (filters.cuisine && !truck.cuisine.toLowerCase().includes(filters.cuisine.toLowerCase())) return false;
       if (filters.rating && truck.rating < filters.rating) return false;
       if (filters.time === 'open' && !isFoodTruckOpen(truck.hours)) return false;
       return true;
     });
-  }, [foodTrucks, filters]);
+  }, [localFoodTrucks, filters]);
 
   const sortedFoodTrucks = useMemo(() => {
     if (!currentLocation) return filteredFoodTrucks;
